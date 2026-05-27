@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub Engine v4 — AffiliateMediaHub Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0c0f1a;--bg2:#131726;--bg3:#1a1f30;--bg4:#1e2438;
+  --teal:#00d4aa;--gold:#f5c518;--blue:#4f8ef7;
+  --purple:#9b7fee;--green:#34d399;--red:#f87171;
+  --s1:#a78bfa;--s2:#f59e0b;--s3:#34d399;--aff:#f5c518;
+  --sw:220px;--th:56px;--rad:10px;
+  --txt:#e2e8f0;--muted:#94a3b8;--border:#2a3048;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:'Inter',sans-serif}
+input,textarea,select{font-family:'Inter',sans-serif}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px 36px;width:360px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.login-lock{font-size:52px;margin-bottom:10px}
+.login-logo{font-size:22px;font-weight:800;color:var(--teal);margin-bottom:4px}
+.login-sub{color:var(--muted);font-size:12px;margin-bottom:20px}
+.login-divider{height:1px;background:var(--border);margin:16px 0}
+.login-label{text-align:left;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.login-box input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--txt);font-size:14px;margin-bottom:12px;outline:none;letter-spacing:.1em}
+.login-box input:focus{border-color:var(--teal)}
+.login-btn{width:100%;padding:13px;background:var(--teal);color:#000;font-weight:700;font-size:14px;border:none;border-radius:8px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.login-btn:hover{opacity:.86}
+.login-err{color:var(--red);font-size:13px;margin-top:10px;display:none}
+.login-footer{margin-top:20px;font-size:11px;color:var(--muted);line-height:1.7}
+
+/* APP */
+#app{display:none;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{position:fixed;top:0;left:0;width:var(--sw);height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:200;overflow-y:auto}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border)}
+.sb-logo-text{font-size:14px;font-weight:800;color:var(--teal)}
+.sb-logo-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.sb-nav{padding:8px 0;flex:1}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-left:3px solid transparent;transition:.15s;user-select:none}
+.ni:hover{color:var(--txt);background:var(--bg3)}
+.ni.active{color:var(--teal);border-left-color:var(--teal);background:rgba(0,212,170,.07)}
+.ni-icon{font-size:15px;width:20px;text-align:center}
+.sb-section{font-size:10px;color:var(--muted);padding:12px 16px 4px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.sb-bottom{padding:12px 16px;border-top:1px solid var(--border)}
+.sb-user{font-size:12px;color:var(--muted)}
+.sb-user strong{display:block;color:var(--txt);font-size:13px}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:var(--sw);right:0;height:var(--th);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:150}
+#tbl{font-size:14px;font-weight:600;color:var(--txt)}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-pill{background:rgba(0,212,170,.12);color:var(--teal);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
+#hamburger{display:none;background:none;border:none;color:var(--txt);font-size:20px;cursor:pointer;padding:4px 8px}
+
+/* MAIN */
+#main{margin-left:var(--sw);margin-top:var(--th);min-height:calc(100vh - var(--th));padding:24px;max-width:1200px}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);padding:20px}
+.card-sm{padding:14px 16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* TYPE */
+.pg-title{font-size:22px;font-weight:800;margin-bottom:4px}
+.pg-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.sec-title{font-size:15px;font-weight:700;margin-bottom:12px}
+.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:6px}
+.muted{color:var(--muted)}
+
+/* BADGES */
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.b-teal{background:rgba(0,212,170,.15);color:var(--teal)}
+.b-gold{background:rgba(245,197,24,.15);color:var(--gold)}
+.b-blue{background:rgba(79,142,247,.15);color:var(--blue)}
+.b-green{background:rgba(52,211,153,.15);color:var(--green)}
+.b-red{background:rgba(248,113,113,.15);color:var(--red)}
+.b-purple{background:rgba(155,127,238,.15);color:var(--purple)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:.15s;text-decoration:none}
+.btn-teal{background:var(--teal);color:#000}.btn-teal:hover{opacity:.85}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{opacity:.85}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{opacity:.85}
+.btn-ghost{background:var(--bg3);color:var(--txt);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-danger{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-xs{padding:4px 8px;font-size:11px}
+.w100{width:100%;justify-content:center}
+
+/* STATUS */
+.st{font-size:12px;padding:8px 12px;border-radius:6px;margin-top:8px;display:none}
+.st.on{display:block}
+.st-i{background:rgba(79,142,247,.15);color:var(--blue)}
+.st-k{background:rgba(52,211,153,.15);color:var(--green)}
+.st-e{background:rgba(248,113,113,.15);color:var(--red)}
+
+/* OUTPUT */
+.out{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;white-space:pre-wrap;display:none;min-height:60px;margin-top:8px}
+.out.on{display:block}
+
+/* PERSONA */
+.avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
+
+/* BECKY CHAT */
+#bmsgs{min-height:260px;max-height:400px;overflow-y:auto;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.msg{max-width:84%;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.65}
+.msg-u{align-self:flex-end;background:rgba(0,212,170,.15);border-bottom-right-radius:3px}
+.msg-b{align-self:flex-start;background:var(--bg4);border-bottom-left-radius:3px}
+.msg-who{font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.chat-row{display:flex;gap:8px;align-items:flex-end}
+#bin{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--txt);font-size:13px;resize:none;outline:none;min-height:46px;max-height:120px}
+#bin:focus{border-color:var(--teal)}
+.bquick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.bq{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 13px;font-size:12px;color:var(--muted);cursor:pointer;transition:.15s}
+.bq:hover{border-color:var(--teal);color:var(--teal)}
+
+/* JOB CARDS */
+.job-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+
+/* TRAINING */
+.day-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:8px;margin-bottom:6px}
+.day-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--teal);cursor:pointer;flex-shrink:0}
+.day-num{font-size:11px;color:var(--muted);width:40px;flex-shrink:0}
+.progress-bar{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:var(--teal);border-radius:4px;transition:.4s}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+.cal-day{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 8px;min-height:84px}
+.cal-day-name{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px}
+.cal-date{font-size:16px;font-weight:700;margin-bottom:6px}
+.cal-pill{font-size:10px;padding:3px 7px;border-radius:4px;font-weight:600;display:inline-block;margin-bottom:3px}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;border-bottom:1px solid var(--border)}
+td{padding:11px 12px;border-bottom:1px solid rgba(42,48,72,.5)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.018)}
+
+/* SHOW SELECTOR */
+.show-card{flex:1;background:var(--bg3);border:2px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:.15s;text-align:center}
+.show-card.sel{border-color:var(--teal);background:rgba(0,212,170,.06)}
+.show-card:hover{border-color:var(--purple)}
+
+/* SKILLS */
+.skill-step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(42,48,72,.5)}
+.skill-step:last-child{border-bottom:none}
+.step-num{width:22px;height:22px;background:rgba(0,212,170,.15);color:var(--teal);border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+
+/* STAT */
+.stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px}
+.stat-num{font-size:28px;font-weight:800;color:var(--teal)}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:3px}
+
+/* OVERLAY */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:190}
+
+/* UTILS */
+.sep{height:1px;background:var(--border);margin:16px 0}
+.mb4{margin-bottom:4px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+.mb16{margin-bottom:16px}.mb20{margin-bottom:20px}.mb24{margin-bottom:24px}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.flex{display:flex}.fca{display:flex;align-items:center}
+.fsb{display:flex;align-items:center;justify-content:space-between}
+.gap8{gap:8px}.gap12{gap:12px}.gap16{gap:16px}.wrap{flex-wrap:wrap}
+.bold{font-weight:700}.teal{color:var(--teal)}.gold{color:var(--gold)}
+
+/* MOBILE */
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%);transition:transform .25s}
+  #sidebar.open{transform:translateX(0)}
+  #overlay.on{display:block}
+  #main{margin-left:0;padding:16px}
+  #topbar{left:0}
+  #hamburger{display:block}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .cal-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:480px){.cal-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-lock">🔒</div>
+    <div class="login-logo">Hub Engine v4</div>
+    <div class="login-sub">AffiliateMediaHub Studio · John Lanter CEO</div>
+    <div class="login-divider"></div>
+    <div class="login-label">STUDIO PASSWORD</div>
+    <input id="pw-input" type="password" placeholder="Enter studio password..." autocomplete="current-password">
+    <button class="login-btn" onclick="chkPw()"><span>🔓</span> Enter Studio</button>
+    <div class="login-err" id="pw-err"></div>
+    <div class="login-footer">Secured workspace · Groq AI powered<br>Three Minds. One Mission. Zero Cost.</div>
+  </div>
+</div>
+<div id="app">
+  <div id="overlay" onclick="closeSidebar()"></div>
+  <div id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-text">🎙 Hub Engine v4</div>
+    <div class="sb-logo-sub">AffiliateMediaHub Studio</div>
+  </div>
+  <nav class="sb-nav">
+    <!-- PRIMARY TOOLS — Used Every Day -->
+    <div class="sb-section">Daily Tools</div>
+    <div class="ni active" onclick="nav('dashboard')"><span class="ni-icon">🏠</span>Dashboard</div>
+    <div class="ni" onclick="nav('becky')"><span class="ni-icon">🤖</span>Becky AI</div>
+    <div class="ni" onclick="nav('jobfinder')" style="border-left-color:var(--gold)"><span class="ni-icon">🔍</span>AI Job Finder</div>
+    <div class="ni" onclick="nav('podcast')" style="border-left-color:var(--teal)"><span class="ni-icon">🎙</span>Podcast + Video</div>
+    <div class="ni" onclick="nav('affiliate')"><span class="ni-icon">💰</span>Affiliate Team</div>
+    <div class="ni" onclick="nav('linkedin')"><span class="ni-icon">✍</span>Daily Blog</div>
+
+    <!-- MORE TOOLS — Collapsible -->
+    <div class="sb-section" style="cursor:pointer;user-select:none" onclick="toggleMoreTools()" id="more-tools-label">
+      <span id="more-arrow">▶</span> More Tools
+    </div>
+    <div id="more-tools-list" style="display:none">
+      <div class="ni" onclick="nav('video')"><span class="ni-icon">🎬</span>Video Pipeline</div>
+      <div class="ni" onclick="nav('business')"><span class="ni-icon">🏢</span>Business Team</div>
+      <div class="ni" onclick="nav('employment')"><span class="ni-icon">💼</span>Employment Log</div>
+      <div class="ni" onclick="nav('calendar')"><span class="ni-icon">📅</span>Content Calendar</div>
+      <div class="ni" onclick="nav('brand')"><span class="ni-icon">🎨</span>Brand Voice</div>
+      <div class="ni" onclick="nav('prompts')"><span class="ni-icon">💡</span>Prompt Library</div>
+      <div class="ni" onclick="nav('skills')"><span class="ni-icon">⚡</span>Skills Guide</div>
+      <div class="ni" onclick="nav('training')"><span class="ni-icon">🎓</span>Training Library</div>
+      <div class="ni" onclick="nav('files')"><span class="ni-icon">📁</span>Files &amp; Resources</div>
+      <div class="ni" onclick="nav('team')"><span class="ni-icon">👥</span>Team Management</div>
+      <a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" class="ni" style="text-decoration:none"><span class="ni-icon">🪟</span>Microsoft GenAI Course ↗</a>
+    </div>
+
+    <div class="sb-section">System</div>
+    <div class="ni" onclick="nav('settings')"><span class="ni-icon">⚙</span>Settings</div>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-user"><strong>John Lanter</strong>CEO · AffiliateMediaHub</div>
+  </div>
+</div>
+  <div id="topbar">
+  <div class="fca gap8">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <span id="tbl">Dashboard</span>
+  </div>
+  <div class="tb-right">
+    <span class="tb-pill">Three Minds. One Mission.</span>
+    <button class="btn btn-ghost btn-sm" onclick="nav('becky')">🤖 Becky</button>
+    <button class="btn btn-ghost btn-sm" onclick="nav('settings')">⚙</button>
+  </div>
+</div>
+  <div id="main">
+    <div id="pg-dashboard" class="page active">
+  <div class="fsb mb16">
+    <div>
+      <div class="pg-title">Good morning, John 👋</div>
+      <div class="pg-sub">AffiliateMediaHub Studio — Hub Engine v4 · Three active workflows below</div>
+    </div>
+    <button class="btn btn-teal" onclick="nav('becky')">🤖 Ask Becky</button>
+  </div>
+
+  <!-- THREE ACTIVE WORKFLOWS — Big and clear -->
+  <div class="g3 mb20">
+
+    <!-- Workflow 1: Make a Video TODAY -->
+    <div style="background:linear-gradient(135deg,rgba(0,212,170,.15),rgba(0,212,170,.05));border:2px solid var(--teal);border-radius:12px;padding:20px">
+      <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:8px">WORKFLOW 1 — VIDEO</div>
+      <div style="font-size:18px;font-weight:800;margin-bottom:6px">Make a Podcast Video</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">Becky writes the script and video prompt. You follow 3 steps. Done in 20 minutes.</div>
+      <button class="btn btn-teal w100" onclick="nav('podcast')" style="justify-content:center;font-size:14px;font-weight:700;padding:12px">🎙 Start Video Now →</button>
+    </div>
+
+    <!-- Workflow 2: Apply for a Job TODAY -->
+    <div style="background:linear-gradient(135deg,rgba(245,197,24,.15),rgba(245,197,24,.05));border:2px solid var(--gold);border-radius:12px;padding:20px">
+      <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;margin-bottom:8px">WORKFLOW 2 — JOB</div>
+      <div style="font-size:18px;font-weight:800;margin-bottom:6px">Apply for a Job</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">Becky finds jobs, writes your resume and cover letter. Quick-copy fills the form. Done in 20 minutes.</div>
+      <button class="btn btn-gold w100" onclick="nav('jobfinder')" style="justify-content:center;font-size:14px;font-weight:700;padding:12px">🔍 Find and Apply Now →</button>
+    </div>
+
+    <!-- Workflow 3: Write Daily Blog -->
+    <div style="background:linear-gradient(135deg,rgba(79,142,247,.15),rgba(79,142,247,.05));border:2px solid var(--blue);border-radius:12px;padding:20px">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.08em;margin-bottom:8px">WORKFLOW 3 — BLOG</div>
+      <div style="font-size:18px;font-weight:800;margin-bottom:6px">Write Today Blog Post</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">Write from your thoughts. Becky polishes it. One tap copies and opens LinkedIn. Done in 10 minutes.</div>
+      <button class="btn btn-blue w100" onclick="nav('linkedin')" style="justify-content:center;font-size:14px;font-weight:700;padding:12px">✍ Write Post Now →</button>
+    </div>
+  </div>
+
+  <!-- Status row -->
+  <div class="g4 mb16">
+    <div class="stat-box"><div class="stat-num" id="jf-stat-total-d">0</div><div class="stat-lbl">Jobs Applied</div></div>
+    <div class="stat-box"><div class="stat-num" id="blog-total-d">0</div><div class="stat-lbl">Blog Posts Written</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--gold)">$1</div><div class="stat-lbl">BlueFX Trial</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--green)">$5</div><div class="stat-lbl">Monthly Cost</div></div>
+  </div>
+
+  <!-- Show Schedule compact -->
+  <div class="card mb16">
+    <div class="fsb mb12">
+      <div class="sec-title mb0">📅 Show Schedule — Click to Write Script</div>
+    </div>
+    <div class="g4">
+      <div style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:8px;padding:12px;cursor:pointer" onclick="setPodShow(1);nav('podcast')">
+        <div style="color:#a78bfa;font-size:11px;font-weight:700">MON · WED</div>
+        <div style="font-weight:700;margin:4px 0">Show 1</div>
+        <div style="font-size:12px;color:var(--muted)">Lisa + Susan</div>
+      </div>
+      <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:12px;cursor:pointer" onclick="setPodShow(2);nav('podcast')">
+        <div style="color:#f59e0b;font-size:11px;font-weight:700">TUE · THU</div>
+        <div style="font-weight:700;margin:4px 0">Show 2</div>
+        <div style="font-size:12px;color:var(--muted)">Paul + Alisha</div>
+      </div>
+      <div style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:8px;padding:12px;cursor:pointer" onclick="nav('business')">
+        <div style="color:#34d399;font-size:11px;font-weight:700">FRI · SAT</div>
+        <div style="font-weight:700;margin:4px 0">Show 3</div>
+        <div style="font-size:12px;color:var(--muted
