@@ -1,0 +1,466 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"/> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<title>Hub Engine V4 — AffiliateMediaHub Studio</title> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script> 
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet"/> 
+<style> 
+*{box-sizing:border-box;margin:0;padding:0} 
+body{background:#06070d;color:#e8eaf0;font-family:'DM Sans',sans-serif} 
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#0b0d14}::-webkit-scrollbar-thumb{background:#1e2433;border-radius:3px} 
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}} 
+@keyframes glow{0%,100%{box-shadow:0 0 30px rgba(240,165,0,.15)}50%{box-shadow:0 0 60px rgba(240,165,0,.4)}} 
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}} 
+@keyframes shake{0%,100%{transform:translateX(0)}25%,75%{transform:translateX(-8px)}50%{transform:translateX(8px)}} 
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}} 
+@keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}} 
+@keyframes load{from{width:0}to{width:100%}} 
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}} 
+textarea:focus,input:focus,select:focus{outline:none;border-color:#f0a500!important;box-shadow:0 0 0 3px rgba(240,165,0,.1)!important} 
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px} 
+.modal{background:#0d1017;border:1px solid #1e2433;border-radius:20px;padding:28px;width:540px;max-width:100%;max-height:88vh;overflow-y:auto;animation:popIn .2s ease} 
+#loader{position:fixed;inset:0;background:#06070d;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.6s ease} 
+#loader .ring{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#f0a500,#c06000);display:flex;align-items:center;justify-content:center;font-size:28px;animation:glow 2s infinite;margin-bottom:18px} 
+#loader .lt{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:900;color:#fff} 
+#loader .ls{font-size:10px;color:#f0a500;letter-spacing:4px;margin-top:5px} 
+#loader .bar{width:180px;height:3px;background:#1e2433;border-radius:2px;margin-top:20px;overflow:hidden} 
+#loader .fill{height:100%;background:linear-gradient(90deg,#f0a500,#e07000);border-radius:2px;animation:load 3.5s ease forwards} 
+.new-badge{background:#f0a500;color:#06070d;font-size:8px;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:0.05em;margin-left:6px;vertical-align:middle} 
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#10b981;animation:pulse 1.5s infinite;margin-right:4px} 
+</style> 
+</head> 
+<body> 
+<script> 
+setTimeout(function(){ 
+var l=document.getElementById("loader"); 
+if(l){l.style.opacity="0";setTimeout(function(){l.style.display="none";},600);} 
+},4500); 
+</script> 
+<div id="loader"> 
+<div class="ring">⚡</div> 
+<div class="lt">HUB ENGINE V4</div> 
+<div class="ls">LOADING...</div> 
+<div class="bar"><div class="fill"></div></div> 
+<div style="color:#3a4156;font-size:11px;margin-top:14px">AffiliateMediaHub Studio</div> </div> 
+<div id="root"></div> 
+<script> 
+window.TRACKS=[ 
+// ═══════════════════════════════════════════ 
+// 28-DAY COURSE 1: AI VIDEO PRODUCTION 
+// ═══════════════════════════════════════════ 
+{id:"course1",emoji:"🎬",title:"28-Day Course: AI Video Production",color:"#f0a500",badge:"NEW",lessons:[ 
+{title:"Day 1 — Welcome & Your Video Stack",body:"WELCOME TO YOUR 28-DAY AI VIDEO PRODUCTION COURSE\n\nBy the end of this course you will have a complete video production system running. One that Becky manages and that produces professional videos every single day.\n\nYOUR COMPLETE FREE STACK:\n• ElevenLabs — Professional voiceover ($5/month)\n• Wan2.2 — AI video scene generation (FREE)\n• FFmpeg — Video merging server (FREE — FreeStack)\n• CapCut — Captions and final polish (FREE)\n• YouTube OAuth — Direct publishing (FREE)\n\nTOTAL COST: $5/month\n\nTHIS IS YOUR WAN2.2 FACTORY:\nStep 1: Write script → ElevenLabs generates audio\nStep 2: Break script into scenes → Wan2.2 generates each scene\nStep 3: FFmpeg merges audio + scenes into one video\nStep 4: CapCut adds captions and final touches\nStep 5: Publish direct to YouTube\n\nYOUR CAST:\n• Lisa — News anchor (black blazer) — Fri + Sat affiliate promos\n• Susan — Authority expert (navy blazer) — Monday\n• Paul — Trusted grandfather (overalls/beard) — Thursday\n• Alisha — Charismatic host (blue top/glasses) — Wednesday\n• Becky Host (gold blouse) + Becky Guest (white blouse) — Affiliate shows\n\nDAY 1 ACTION: Read this lesson twice. Know your stack cold."}, 
+{title:"Day 2 — ElevenLabs Voiceover Mastery",body:"ELEVENLABS — YOUR PROFESSIONAL VOICE ENGINE\n\nElevenLabs turns your scripts into broadcast-quality voiceovers in seconds.\n\nSETUP:\n1. Go to elevenlabs.io\n2. Sign up — $5/month Starter plan\n3. Go to Voice Library — browse 3000+ voices\n4. Find voices that match each anchor:\n • Lisa: Professional, clear, authoritative female\n • Susan: Warm, friendly, trustworthy female\n • Paul: Deep, steady, grandfather male\n • Alisha: Energetic, charismatic, sales female\n • Becky: Polished, professional female\n\nWORKFLOW:\n1. Write your script in Hub Engine V4\n2. Copy to ElevenLabs → Speech Synthesis\n3. Select your anchor voice\n4. Set stability: 0.75 | Similarity: 0.85\n5. Generate → Download MP3\n6. This MP3 goes into Step 3 (FFmpeg)\n\nPRO TIP: Create a custom voice clone for each anchor for maximum consistency. ElevenLabs lets you clone a voice from just 1 minute of audio."}, 
+{title:"Day 3 — Wan2.2 Scene Prompting",body:"WAN2.2 — YOUR FREE AI VIDEO GENERATOR\n\nWan2.2 generates cinematic video scenes from text prompts. It is completely free through open source.\n\nHOW IT WORKS:\nYou write a scene description → Wan2.2 generates a 3-5 second video clip → You chain clips together with FFmpeg.\n\nSCENE PROMPT FORMULA:\n[SHOT TYPE] [SUBJECT] [ACTION] [SETTING] [LIGHTING] [MOOD]\n\nEXAMPLE FOR LISA NEWS ANCHOR:\nMedium close-up professional Asian female news anchor speaking directly to camera, modern TV news studio, clean background with blue accent lighting, authoritative professional atmosphere, broadcast quality\n\nEXAMPLE FOR PAUL GRANDFATHER:\nMedium shot trusted elderly male grandfather sitting in comfortable chair, warm home setting, soft natural window lighting, reassuring grandfatherly atmosphere, authentic documentary style\n\nEXAMPLE FOR B-ROLL:\nAerial drone shot modern city skyline at golden hour, glowing windows, light traffic, cinematic widescreen, professional documentary style\n\nDAY 3 ACTION:\nWrite 5 scene prompts for your next Lisa Friday video using this formula."}, 
+{title:"Day 4 — The Becky Video Workflow",body:"BECKY IS YOUR VIDEO PRODUCTION MANAGER\n\nBecky (your AI agent) manages the complete Wan2.2 Factory so you do not have to do each step manually.\n\nBECKY'S COMPLETE VIDEO WORKFLOW:\n\nYou say to Becky: 'Produce a 60-second affiliate promo for Vidnoz with Lisa as anchor.'\n\nBecky does:\n1. SCRIPT — Writes the full anchor script (60 seconds = ~150 words)\n2. ELEVENLABS — Generates the voice prompt for Lisa's voice\n3. WAN2.2 SCENES — Writes 8-12 scene prompts matching the script beats\n4. FFMPEG — Provides the merge command to combine audio + scenes\n5. CAPCUT — Lists caption style and any final edits needed\n6. YOUTUBE — Writes title, description, tags, and thumbnail text\n\nYOU JUST RUN THE STEPS.\nBecky does the thinking. You do the clicking.\n\nUSE BECKY IN THE BECKY TAB above to start a video production right now."}, 
+{title:"Day 5 — Google Stitch for Thumbnails",body:"GOOGLE STITCH — FREE AI UI & THUMBNAIL DESIGNER\n\nGoogle Stitch (stitch.withgoogle.com) is your free AI design tool for thumbnails, landing pages, and promo graphics.\n\nFOR VIDEO THUMBNAILS:\nGo to stitch.withgoogle.com\nPrompt: Design a YouTube thumbnail for a video titled '[YOUR TITLE]'. High contrast. Bold text. Professional news style. Include a shocked/curious face expression area. Colors: black and gold.\n\nFOR AFFILIATE LANDING PAGES:\nPrompt: Design a landing page for [PRODUCT] affiliate offer. Hero section with bold headline about saving time. 3 benefit bullets. Email capture form. CTA button in gold. Dark professional design.\n\nNEW AT GOOGLE I/O 2026:\n• Continuous streaming — design updates in real time as you type\n• Multiplayer editing — collaborate simultaneously\n• Direct Netlify publish — goes live with one click\n• design.md — brand consistency across all AI tools\n\nDAY 5 ACTION: Go to stitch.withgoogle.com and design a thumbnail for your next Lisa video."}, 
+{title:"Day 6 — FFmpeg Video Merging",body:"FFMPEG — YOUR FREE VIDEO MERGE ENGINE\n\nFFmpeg combines your ElevenLabs audio + Wan2.2 scenes into one complete video. FreeStack Video hosts your FFmpeg server for free.\n\nBASIC MERGE COMMAND:\nffmpeg -i scene1.mp4 -i scene2.mp4 -i scene3.mp4 \\\n-i voiceover.mp3 -filter_complex \\\n'[0:v][1:v][2:v]concat=n=3:v=1:a=0[outv]' \\\n-map '[outv]' -map 3:a output.mp4\n\nBECKY GENERATES THIS FOR YOU.\nYou never need to write FFmpeg commands manually. Just tell Becky the scene count and she writes the exact command.\n\nFREESTACK VIDEO SETUP:\n1. Your FFmpeg server runs on FreeStack (no cost, no watermark)\n2. Upload your scenes and audio\n3. Run Becky's merge command\n4. Download your finished video\n5. No monthly fee, no watermark\n\nDAY 6 ACTION: Have Becky write an FFmpeg command for a 4-scene Lisa video."}, 
+{title:"Day 7 — CapCut Captions & Final Polish",body:"CAPCUT — YOUR FREE CAPTION AND POLISH TOOL\n\nCapCut adds professional auto-captions and final visual polish to your Wan2.2 videos.\n\nCAPTION WORKFLOW:\n1. Import your FFmpeg-merged video into CapCut\n2. Click Auto Captions → Generate\n3. Select font: Bold, high contrast (white text, black outline)\n4. Review and correct any errors\n5. Add your logo in bottom corner\n6. Export at 1080p\n\nPRO CAPTION SETTINGS:\n• Font: Bold sans-serif (Impact or similar)\n• Size: Large enough to read on phone\n• Color: White with black stroke\n• Position: Lower third\n• Style: Word-by-word highlight (karaoke style)\n\nFOR SHORTS AND REELS: Export 9:16 vertical\nFOR YOUTUBE: Export 16:9 horizontal\n\nCOMPLETE CHECKLIST:\n[ ] Captions accurate and readable\n[ ] Logo watermark added\n[ ] Correct aspect ratio for platform\n[ ] Audio levels balanced\n[ ] First 3 seconds have strong hook\n[ ] CTA visible at end\n\nDAY 7 = END OF WEEK 1. You now know your complete video stack."}, 
+{title:"Day 8-14 — Weekly Production Schedule",body:"YOUR WEEKLY VIDEO PRODUCTION SCHEDULE\n\nMONDAY — SUSAN'S SHOW\nTopic: Business/lifestyle/how-to content\nLength: 60-90 seconds\nStyle: Warm, conversational, helpful\nBecky workflow: Susan authority expert script\nPost to: YouTube + LinkedIn\n\nWEDNESDAY — ALISHA'S SHOW\nTopic: AI tools, product promos, high energy\nLength: 45-60 seconds\nStyle: Charismatic, persuasive, sales energy\nBecky workflow: Alisha promo script\nPost to: TikTok + Instagram + YouTube\n\nTHURSDAY — PAUL'S SHOW\nTopic: Breaking news, bold claims, trust content\nLength: 30-45 seconds\nStyle: Short punchy sentences, grandfather authority\nBecky workflow: Paul breaking news script\nPost to: YouTube + Facebook\n\nFRIDAY — LISA'S SHOW\nTopic: Tech news, AI developments, serious analysis\nLength: 60 seconds\nStyle: CNN-style, authoritative, fact-based\nBecky workflow: Lisa news anchor script\nPost to: YouTube + LinkedIn + Twitter\n\nSATURDAY — LISA AFFILIATE PROMO\nTopic: Affiliate product promotion\nLength: 45 seconds\nStyle: Credible endorsement\nBecky workflow: Lisa affiliate promo script\nPost to: All platforms with affiliate link\n\nBECKY + BECKY — AFFILIATE SHOW\nSchedule: As needed\nFormat: Host interviews Guest about AI tool\nBecky workflow: Full interview script format"}, 
+{title:"Day 15-21 — Scaling Your Output",body:"WEEK 3 — SCALING TO DAILY VIDEOS\n\nBy now your Wan2.2 Factory is running smoothly. Week 3 is about scaling output without scaling effort.\n\nBATCH PRODUCTION METHOD:\nInstead of making 1 video per day — make 5 on Monday.\n\nBATCH WORKFLOW:\n1. Monday morning: Write all 5 scripts in Hub Engine\n2. ElevenLabs: Generate all 5 voiceovers in one session\n3. Wan2.2: Generate all scene batches together\n4. FFmpeg: Merge all 5 videos\n5. CapCut: Add captions to all 5\n6. Schedule posts throughout the week\n\nTIME SAVED: 4 hours of daily work becomes 2 hours on Monday.\n\nFREE LLM API FOR SCALE:\nUse Free LLM API (localhost:3001/v1) to run scripts through multiple AI models simultaneously:\n• Gemini 2.5 Flash — fast script drafts\n• Groq Llama — fast iteration\n• GitHub GPT-4o — quality polish\n800 million free tokens per month combined.\n\nBATCH SCRIPT PROMPT TO BECKY:\n'Write 5 scripts for this week: Monday=Susan on [topic], Wednesday=Alisha on [topic], Thursday=Paul on [topic], Friday=Lisa on [topic], Saturday=Lisa affiliate for [product]'"}, 
+{title:"Day 22-28 — Monetization & Growth",body:"WEEK 4 — TURNING VIDEOS INTO INCOME\n\nYOUR 5 AFFILIATE PROGRAMS:\n\n1. VIDNOZ — 50% Commission\nEvery Lisa Saturday video ends with Vidnoz affiliate link\nTarget: 10 sales/month = $250 passive income\n\n2. INVIDEO — 30% Commission\nEvery Alisha Wednesday features InVideo\nTarget: 15 sales/month = $200 passive income\n\n3. MAILERLITE — $140 Per Referral\nSusan Monday builds email list content\nTarget: 3 referrals/month = $420 passive income\n\n4. CAPCUT — Revenue Share\nPaul Thursday mentions CapCut for free editing\nTarget: 20 referrals/month = varies\n\n5. UDEMY — 15% Per Course\nHost/Guest Becky show reviews AI courses\nTarget: 10 sales/month = $75 passive income\n\nMONTH 1 TARGET: $500 affiliate income\nMONTH 3 TARGET: $1,500 affiliate income\nMONTH 6 TARGET: $3,000+ affiliate income\n\nLOCAL BUSINESS VIDEO SERVICE:\nStarter: $200/month (4 videos)\nProfessional: $400/month (8 videos)\nPremium: $700/month (daily videos)\nTarget: 3 local clients = $600-$2,100/month additional\n\nTOTAL POTENTIAL MONTH 6: $3,000-$5,000/month"} 
+]}, 
+// ═══════════════════════════════════════════ 
+// 28-DAY COURSE 2: AFFILIATE MARKETING MASTERY 
+// ═══════════════════════════════════════════ 
+{id:"course2",emoji:"💰",title:"28-Day Course: Affiliate Marketing",color:"#10b981",badge:"NEW",lessons:[ 
+{title:"Day 1 — Your Affiliate Business Overview",body:"WELCOME TO 28-DAY AFFILIATE MARKETING MASTERY\n\nAffiliate marketing is the simplest business model online.\n\nHOW IT WORKS:\n1. You sign up to promote a product (free)\n2. You get a unique tracking link\n3. You share that link in your videos and content\n4. Someone clicks and buys\n5. The company pays YOU a commission automatically\n\nYOU DO NOT:\n• Handle shipping\n• Deal with customer service\n• Hold inventory\n• Create the product\n\nYOUR 5 ACTIVE PROGRAMS:\n1. Vidnoz — 50% commission — $25+ per sale\n2. InVideo — 30% commission — $15+ per sale\n3. MailerLite — $140 flat per referral\n4. CapCut — Revenue share\n5. Udemy — 15% per course sold\n\nYOUR CONTENT ENGINE (already built):\n• 5 anchor videos per week\n• Affiliate link in every description\n• Email list building through every video\n\nDAY 1 ACTION: Log into all 5 affiliate dashboards and write down your current earnings for each one."}, 
+{title:"Day 2-7 — The Influencer Promo Formula",body:"THE FORMULA THAT CONVERTS VIEWERS TO BUYERS\n\nEvery affiliate promo follows this exact structure:\n\n1. HOOK — Pain Point (first 3 seconds)\n'If you are still editing videos by hand you are wasting 6 hours a week...'\n\n2. STORY — Relatable Experience\n'I used to spend my whole Sunday editing one video...'\n\n3. DEMO — What The Product Does\n'Then I found Vidnoz AI and now I create a professional video in under 10 minutes...'\n\n4. PROOF — Specific Result\n'My last video got 2,400 views in 48 hours and I spent 8 minutes making it...'\n\n5. CTA — Exactly What To Do\n'Click the link in my description — try Vidnoz free for 7 days. No credit card needed.'\n\nYOUR ANCHORS DELIVER THIS:\n• Alisha: High energy hooks and FOMO-driven promos\n• Lisa: Credible expert endorsements\n• Susan: Warm story-driven recommendations\n• Paul: Trusted grandfather seal of approval\n\nBECKY WRITES THESE FOR YOU.\nJust tell Becky: 'Write an influencer promo for Vidnoz using Alisha. Hook about wasted editing time. 45 seconds.'"}, 
+{title:"Day 8-14 — Building Your Email List",body:"YOUR EMAIL LIST IS YOUR MOST VALUABLE ASSET\n\nWhy? Because YouTube can delete your channel. TikTok can ban you. But nobody can take your email list.\n\nMAILERLITE SETUP (FREE up to 1,000 subscribers):\n1. Go to mailerlite.com — sign up free\n2. Create a landing page: 'Get My FREE AI Video Toolkit'\n3. Add a simple email capture form\n4. Connect to an automation sequence\n5. Share the landing page link in every video description\n\nYOUR 3-EMAIL WELCOME SEQUENCE:\nEmail 1 (Instant): Subject: 'Here is your free AI toolkit'\n- Deliver the free resource they signed up for\n- Introduce yourself and your show\n\nEmail 2 (Day 2): Subject: 'The tool that changed everything for me'\n- Tell your Vidnoz story\n- Include your affiliate link naturally\n\nEmail 3 (Day 4): Subject: 'I made 5 videos last Monday (here is how)'\n- Share your batch production workflow\n- Strong CTA: try Vidnoz free link\n\nEVERY MAILERLITE REFERRAL = $140\nGet 3 people to sign up for MailerLite and you have made $420 with zero product to sell.\n\nBECKY: 'Write a 3-email welcome sequence for people who downloaded my free AI Video Toolkit. They are small business owners in Southeast Texas.'"}, 
+{title:"Day 15-21 — Content That Converts",body:"THE 5 CONTENT TYPES THAT DRIVE AFFILIATE SALES\n\n1. TUTORIAL VIDEOS (highest converter)\n'How to create a professional business video in 10 minutes'\nShow the tool in action. Link in description.\nConversion rate: 8-15%\n\n2. COMPARISON VIDEOS\n'Best AI video tools for small businesses 2026'\nYour affiliate tools win the comparison. Honest but strategic.\nConversion rate: 12-20%\n\n3. RESULTS VIDEOS\n'I made 5 videos in one day using this AI tool'\nReal results. Real numbers. People want proof.\nConversion rate: 10-18%\n\n4. PROBLEM/SOLUTION VIDEOS\n'Why your business videos look amateur (and the free fix)'\nIdentify the pain. Present your affiliate tool as the solution.\nConversion rate: 6-12%\n\n5. NEWS-STYLE REVIEW\n'This AI tool is changing how small businesses make videos'\nLisa or Susan delivers it as a news segment. Credibility.\nConversion rate: 5-10%\n\nBATCH THESE WITH BECKY:\nTell Becky: 'Plan 5 affiliate videos for Vidnoz this week — one tutorial, one comparison, one results video, one problem/solution, one Lisa news review. Write all 5 scripts.'"}, 
+{title:"Day 22-28 — Scale to $3,000/Month",body:"YOUR PATH TO $3,000 MONTHLY AFFILIATE INCOME\n\nMATH BREAKDOWN:\n\nVIDNOZ ($25/sale × 50% commission):\nTarget: 20 sales/month\nIncome: $500/month\nHow: 1 dedicated Vidnoz video per week\n\nINVIDEO ($15/sale × 30% commission):\nTarget: 20 sales/month\nIncome: $300/month\nHow: InVideo mention in every Alisha video\n\nMAILERLITE ($140 flat per referral):\nTarget: 5 referrals/month\nIncome: $700/month\nHow: Susan Monday builds email list content\n\nCAPCUT + UDEMY:\nTarget: 30 combined sales/month\nIncome: $200/month\nHow: Natural mentions in production workflow videos\n\nLOCAL BUSINESS CLIENTS:\nTarget: 3 clients at $300 average\nIncome: $900/month\nHow: Your 60-second pitch + 2 free sample videos\n\nTOTAL: $2,600/month passive + local clients\n\nHIT THIS IN 6 MONTHS WITH:\n• 5 videos per week (your Wan2.2 Factory)\n• Affiliate link in every description\n• Email list growing weekly\n• 1 new local client pitch per week\n\nYOU HAVE THE SYSTEM. NOW EXECUTE."} 
+]}, 
+// ═══════════════════════════════════════════ 
+// 28-DAY COURSE 3: MULTI-AGENT BUSINESS BUILDING 
+// ═══════════════════════════════════════════ 
+{id:"course3",emoji:"🤖",title:"28-Day Course: AI Agent Business",color:"#a78bfa",badge:"NEW",lessons:[ 
+{title:"Day 1 — Your Agent Operating System",body:"WELCOME TO 28-DAY AI AGENT BUSINESS BUILDING\n\nAn Agent OS is a command center where multiple AI agents work simultaneously on your business — while you manage as CEO.\n\nTHINK OF IT LIKE THIS:\nYou are the CEO. Your agents are your team.\n• Content Agent — writes all scripts and copy\n• Video Agent — manages Wan2.2 Factory workflow\n• Research Agent — tracks trends and competitors\n• Email Agent — writes outreach and follow-ups\n• Social Agent — creates hooks and captions\n• Strategy Agent — plans your business growth\n\nYOUR AGENT STACK (100% FREE):\n• Claude Sonnet — primary agent brain (API)\n• Groq Llama 3.3 70B — fast free agent (gsk_ key)\n• Google Gemini 2.5 Flash — free via AI Studio\n• Free LLM API — 800M tokens/month free\n• Agent OS Dashboard — your command center\n\nWHAT YOUR AGENTS DO FOR YOU:\n• Write all scripts automatically\n• Generate Wan2.2 scene prompts\n• Research affiliate programs\n• Write all email sequences\n• Create social media content\n• Plan your weekly strategy\n\nDAY 1 ACTION: Open the Agent OS app. Launch all agents. See them run simultaneously."}, 
+{title:"Day 2-7 — Running Multiple Agents",body:"HOW TO RUN AGENTS SIMULTANEOUSLY\n\nIn your Agent OS Multi-Agent Command Center:\n\nMETHOD 1 — BROADCAST (all agents at once)\nType one task in the broadcast bar.\nHit the ALL button.\nAll 6 agents work on it from their own perspective simultaneously.\n\nEXAMPLE BROADCAST:\n'AffiliateMediaHub Studio is launching a new Vidnoz affiliate campaign. Each agent provide your best output for your role.'\n\nRESULT:\n• Content Agent writes the scripts\n• Video Agent writes Wan2.2 scene prompts\n• Research Agent finds Vidnoz competitor data\n• Email Agent writes the email sequence\n• Social Agent writes the captions and hooks\n• Strategy Agent builds the 4-week campaign plan\n\nAll 6 done in under 2 minutes.\n\nMETHOD 2 — INDIVIDUAL AGENT CHAT\nClick any agent card → opens direct chat\nWork one-on-one for deeper tasks\n\nMETHOD 3 — LAUNCH ALL\nHit the big LAUNCH ALL button\nEach agent runs their default weekly task automatically\n\nYOUR TIME SAVED: What used to take 6 hours of manual work now takes 4 minutes."}, 
+{title:"Day 8-14 — Agent Memory System",body:"BUILDING AN AGENT MEMORY SYSTEM\n\nThe most powerful thing about an Agent OS is memory. Your agents remember everything about your business and improve over time.\n\nYOUR MEMORY VAULT CONTAINS:\n• Hub Engine v4 Stack details\n• Wan2.2 Factory workflow steps\n• Cast schedule (Susan Mon, Alisha Wed, Paul Thu, Lisa Fri+Sat)\n• All anchor descriptions and styles\n• Affiliate program details and commission rates\n• Your business goals and monthly targets\n• Past campaign results\n\nADD MEMORIES AS YOU GO:\nAfter every successful campaign — add it to Memory Vault\nAfter every video that performs well — add what worked\nAfter every client meeting — add what they need\n\nWHY THIS MATTERS:\nWithout memory: Every chat starts from zero. You explain yourself every time.\nWith memory: Agents already know your full business context. They produce better output immediately.\n\nFUTURE: Obsidian Integration\nConnect your Agent OS to Obsidian for a local knowledge base that every agent reads automatically. Your agents get smarter every week.\n\nDAY 8-14 ACTION: Add 10 memories to your Memory Vault. Make them detailed and specific."}, 
+{title:"Day 15-21 — Hermes Agent Hub",body:"HERMES AGENT HUB — YOUR LOCAL AGENT MANAGER\n\nHermes is an open-source agent app that runs autonomously on your computer — handling tasks, saving outputs, and building skills.\n\nWHAT HERMES DOES:\n• Kanban task board — assign tasks to agents\n• Skills system — builds reusable workflows\n• Goal mode — 'Write me an SEO blog post' and it runs start to finish\n• Saves all outputs to your workspace\n• Runs on schedule — automated background tasks\n\nSETUP FOR YOUR STUDIO:\n1. Open Hermes in your Terminal\n2. At API key prompt — use your Groq key (gsk_...)\n3. Model: llama-3.3-70b-versatile (128K context, free)\n4. Create your first skill: Wan2.2 Video Production\n5. Add your cast schedule as a knowledge file\n\nHERMES + WAN2.2 FACTORY:\nSet Hermes on a schedule timer\nEvery Monday: Auto-generate Susan's script\nEvery Wednesday: Auto-generate Alisha's script\nEvery Thursday: Auto-generate Paul's script\nEvery Friday: Auto-generate Lisa's script\n\nBrad (a real user) built his entire autonomous content platform on Hermes running on a small local model called Bonsai. If he can do it — you can do it.\n\nDAY 15: Install Hermes. Add Groq key. Get it active. Then come back to Day 16."}, 
+{title:"Day 22-28 — Full Autonomous System",body:"WEEK 4 — YOUR FULLY AUTONOMOUS BUSINESS MACHINE\n\nBy now you have:\n• Agent OS running 6 simultaneous agents\n• Hermes managing scheduled tasks\n• Memory Vault with 10+ business memories\n• Free LLM API providing 800M tokens/month\n• Wan2.2 Factory producing 5 videos/week\n• Affiliate links in all content\n\nYOUR AUTONOMOUS WEEKLY ROUTINE:\n\nMONDAY 9AM (Automatic — Hermes):\n• Susan script generated\n• ElevenLabs voice prompt ready\n• Wan2.2 scene prompts generated\n• Social captions written for all platforms\n\nWEDNESDAY 9AM (Automatic):\n• Alisha script + scenes + captions\n\nTHURSDAY 9AM (Automatic):\n• Paul script + scenes + captions\n\nFRIDAY 9AM (Automatic):\n• Lisa script + scenes + captions\n• Lisa Saturday affiliate script\n\nYOUR JOB AS CEO:\n✓ Review outputs (15 minutes)\n✓ Run FFmpeg merge (5 minutes per video)\n✓ CapCut captions (10 minutes per video)\n✓ Post to platforms (10 minutes per video)\n✓ Total: 2 hours per week instead of 30+\n\nTHIS IS THE SYSTEM. This is what Julian Goldie built. This is what Brad built. Now YOU have it too."} 
+]}, 
+// ═══════════════════════════════════════════ 
+// ORIGINAL TRACKS — UPDATED 
+// ═══════════════════════════════════════════ 
+{id:"video",emoji:"🎥",title:"Video Production Deep Dive",color:"#f0a500",lessons:[ 
+{title:"Complete Becky Video Workflow",body:"BECKY IS YOUR FULL VIDEO PRODUCTION MANAGER\n\nBecky does the entire Wan2.2 Factory for you from one prompt.\n\nTELL BECKY IN THE BECKY TAB:\n'Produce a full 60-second affiliate video for Vidnoz with Lisa as anchor for this Friday.'\n\nBECKY DELIVERS:\n\n1. SCRIPT (150 words, 60 seconds)\nComplete word-for-word anchor script with timing marks.\n\n2. ELEVENLABS PROMPT\nExact settings: Voice profile, stability, similarity boost, style.\n\n3. WAN2.2 SCENE PROMPTS (8-10 scenes)\nEach scene described in detail: shot type, subject, setting, lighting, mood.\n\n4. FFMPEG MERGE COMMAND\nExact command to merge all scenes + audio into final video.\n\n5. CAPCUT INSTRUCTIONS\nCaption style, font, color, placement, any text overlays needed.\n\n6. YOUTUBE PACKAGE\nTitle (5 options), description with affiliate links, 30 hashtags in 3 tiers, thumbnail text.\n\nONE PROMPT. FULL VIDEO PACKAGE.\nThat is Becky's power."}, 
+{title:"Wan2.2 Advanced Scene Prompts",body:"ADVANCED WAN2.2 PROMPTING FOR PROFESSIONAL RESULTS\n\nSHOT TYPES:\n• ECU (Extreme Close-Up): Eyes, product detail\n• CU (Close-Up): Face, anchor talking head\n• MCU (Medium Close-Up): Chest up, standard anchor shot\n• MS (Medium Shot): Waist up, product demos\n• WS (Wide Shot): Full scene, establishing shots\n\nLIGHTING TERMS:\n• Rembrandt lighting — dramatic, authoritative (Paul, Lisa)\n• Soft box lighting — warm, approachable (Susan, Alisha)\n• Natural window light — authentic, documentary\n• Studio three-point — professional broadcast\n\nPRO ANCHOR PROMPTS:\n\nLISA (News):\n'MCU professional East Asian female news anchor mid-30s, speaking directly to camera, modern broadcast news studio, blue accent lighting, authoritative CNN-style atmosphere, 4K broadcast quality'\n\nSUSAN (Authority):\n'MCU professional White female expert 38-40, warm confident presentation, clean office setting with books and plants, soft natural lighting, trustworthy documentary style'\n\nPAUL (Grandfather):\n'MS White male grandfather 60s, seated in leather chair, warm study setting, soft lamp lighting, reassuring trustworthy atmosphere, authentic family documentary'\n\nALISHA (Charismatic):\n'MCU Latina female host 40s, energetic warm smile, bright modern studio, vibrant lighting, dynamic sales presentation energy, influencer production quality'"}, 
+{title:"Google Stitch for Video Assets",body:"GOOGLE STITCH — BUILD VIDEO ASSETS IN MINUTES\n\nGo to: stitch.withgoogle.com (completely free)\n\nFOR YOUTUBE THUMBNAILS:\nPrompt: 'Create a YouTube thumbnail for a video titled [YOUR TITLE]. Shocked/curious face expression placeholder. Bold text overlay. High contrast black and gold color scheme. Professional news broadcast style. 1280x720px.'\n\nFOR LOWER THIRDS (name tags in video):\nPrompt: 'Design a lower third name tag graphic for a news broadcast. Name: Lisa Chen. Title: AI Technology Reporter. Style: modern CNN-style. Dark background with gold accent line.'\n\nFOR INTRO SCREENS:\nPrompt: 'Design a 3-second news broadcast intro screen for AffiliateMediaHub Studio. Channel logo area. Gold and black color scheme. Professional broadcast typography.'\n\nFOR AFFILIATE LANDING PAGES:\nPrompt: 'Design a high-converting landing page for Vidnoz AI affiliate offer. Hero: Save 6 hours of video editing per week. Three benefits. Email capture. Gold CTA button. Dark professional theme.'\nThen click Export → Publish to Netlify. LIVE in seconds.\n\nDESIGN.MD BRAND FILE:\nCreate one design.md file with your brand colors (black, gold #f0a500), fonts (Space Grotesk, DM Sans), and spacing rules. Every Stitch page you generate automatically matches your brand."}, 
+{title:"Your Video Distribution System",body:"PUBLISH ONCE — DISTRIBUTE EVERYWHERE\n\nYour Wan2.2 Factory produces one master video. Then you distribute it across every platform automatically.\n\nYOUR DISTRIBUTION STACK:\n\nYOUTUBE (via YouTube OAuth):\n• Long form: 60-90 second videos\n• Shorts: Vertical 9:16 version\n• Becky writes: Title, description, tags, chapter markers\n\nFACEBOOK:\n• Upload the same video directly\n• Becky writes platform-specific caption\n• 5 relevant hashtags only (Facebook hates over-hashtagging)\n\nINSTAGRAM REELS:\n• Vertical crop of same video\n• Becky writes: Hook caption + 20 hashtags\n• First line must be your strongest hook\n\nTIKTOK:\n• Same vertical version\n• Becky writes: Short punchy caption + trending sounds suggestion\n• Best posting time: 7-9am or 7-9pm your timezone\n\nLINKEDIN:\n• Horizontal version for professional audience\n• Becky writes: Professional insights angle\n• Focus on business value not entertainment\n\nTHE MATH:\n1 video produced = 5 platform posts = 5x reach for same effort\n\nBECKY PROMPT: 'Write platform-specific captions for a video about [TOPIC] for all 5 platforms: YouTube, Facebook, Instagram, TikTok, LinkedIn. Include hashtags for each.'"} 
+]}, 
+{id:"prompt",emoji:"⚡",title:"Prompt Engineering 101",color:"#a78bfa",lessons:[ 
+{title:"What Is A Prompt",body:"A PROMPT is simply the instruction you give to an AI.\n\nThe quality of what you get back depends 100% on the quality of what you put in.\n\nBAD PROMPT: Write a script\n\nGOOD PROMPT: Write a 45-second news script for Lisa, my professional Asian news anchor, about AI replacing warehouse jobs. Tone: urgent and authoritative. Strong hook in first 3 seconds. End with a call to action to visit our website.\n\nThe good prompt tells the AI:\n- WHO is delivering it (Lisa)\n- WHAT the topic is\n- HOW LONG (45 seconds)\n- WHAT TONE (urgent, authoritative)\n- WHAT STRUCTURE (hook + CTA)\n\nTHAT IS ALL PROMPT ENGINEERING IS. Being specific and clear.\n\nREMEMBER THE FORMULA: RTFCS\nRole + Task + Format + Constraints + Style"}, 
+{title:"The 5-Part Prompt Formula",body:"RTFCS — YOUR MASTER PROMPT FORMULA\n\n1. ROLE — Tell the AI who to be\n'You are a professional TV news writer for AffiliateMediaHub Studio'\n\n2. TASK — Tell it exactly what to do\n'Write a 45-second anchor script for Lisa'\n\n3. FORMAT — Tell it how to structure it\n'Divide into HOOK, BODY, CTA with second markers'\n\n4. CONSTRAINTS — Give it limits\n'Under 100 words. No jargon. No filler phrases.'\n\n5. STYLE — Tell it the tone\n'Urgent and authoritative like CNN Breaking News'\n\nFULL EXAMPLE:\n'You are a professional TV news writer for AffiliateMediaHub Studio. Write a 45-second anchor script for Lisa about AI replacing warehouse jobs. Divide into HOOK, BODY, CTA with second markers. Under 100 words, no jargon. Tone: urgent and authoritative like CNN Breaking News.'\n\nTHAT is a world-class prompt. Use Becky tab to run it now."}, 
+{title:"10 Power Prompts For Your Studio",body:"COPY AND USE THESE RIGHT NOW IN BECKY TAB:\n\n1. LISA NEWS SCRIPT:\nWrite a 60-second news script for Lisa, professional Asian news anchor, about [TOPIC]. Hook in first 3 seconds. CNN-style authority. End with CTA.\n\n2. ALISHA AFFILIATE PROMO:\nWrite a 45-second affiliate promo for Alisha about [PRODUCT]. Hook: time wasted before finding this. High energy, persuasive, include FOMO. Affiliate CTA at end.\n\n3. SUSAN TUTORIAL:\nWrite a 60-second tutorial script for Susan about [TOPIC]. Warm conversational tone. Start with relatable story. Three clear steps. Helpful CTA.\n\n4. PAUL BREAKING NEWS:\nWrite a 30-second breaking news script for Paul. Topic: [TOPIC]. Maximum 8 words per sentence. Bold and direct. Grandfather authority. Strong close.\n\n5. BECKY INTERVIEW:\nWrite a 90-second Host/Guest interview for Becky reviewing [AI TOOL]. Becky Host asks 3 questions. Becky Guest gives expert answers. Include affiliate recommendation at end.\n\n6. WAN2.2 SCENES:\nWrite 8 detailed Wan2.2 scene prompts for a 60-second [ANCHOR] video about [TOPIC]. Each prompt: shot type, subject description, setting, lighting, mood. Professional broadcast quality.\n\n7. YOUTUBE PACKAGE:\nWrite a complete YouTube package for a video titled [TITLE]: 5 title options, 200-word description with affiliate links, 30 hashtags in 3 tiers, thumbnail text.\n\n8. EMAIL SEQUENCE:\nWrite a 3-email affiliate sequence for [PRODUCT]. Day 1: the problem. Day 2: the solution. Day 3: special offer. Each under 200 words. [ANCHOR NAME] voice.\n\n9. SOCIAL CAPTIONS:\nWrite captions for all 5 platforms for a video about [TOPIC]: YouTube, Facebook, Instagram TikTok, LinkedIn. Platform-specific length and style.\n\n10. LOCAL BUSINESS PITCH:\nWrite a 60-second verbal sales pitch for a local business in [CITY] to sell them a $400/month video service. Name the problem. Show the solution. Reduce risk with free trial offer."} 
+]}, 
+{id:"affiliate",emoji:"💰",title:"Affiliate Marketing Mastery",color:"#10b981",lessons:[ 
+{title:"Your 5 Programs Overview",body:"YOUR 5 ACTIVE AFFILIATE PROGRAMS\n\nVIDNOZ — 50% Commission — TOP EARNER\nSign up: vidnoz.com/affiliate\nBest anchor: Alisha (energy) or Lisa (credibility)\nBest content: Tutorial showing video creation in 10 minutes\nConversion angle: Creates professional videos without a camera\n\nINVIDEO — 30% Commission\nSign up: invideo.io/affiliate\nBest anchor: Alisha or Paul\nBest content: 15-second affiliate ad templates\nConversion angle: News-style ads for local businesses\n\nMAILERLITE — $140 Per Referral\nSign up: mailerlite.com/referral\nBest anchor: Susan (warm, trustworthy)\nBest content: Email list building tutorials\nConversion angle: Build your list, earn $140 per referral\n\nCAPCUT — Revenue Share\nSign up: capcut.com/affiliate\nBest anchor: Lisa or Alisha\nBest content: Short-form video editing tutorials\nConversion angle: Free professional editing for Reels and TikTok\n\nUDEMY — 15% Per Course\nSign up: udemy.com/affiliate\nBest anchor: Susan or Paul\nBest content: Course reviews and learning recaps\nConversion angle: Skills that pay in the AI economy"}, 
+{title:"Affiliate Content Calendar",body:"MONTHLY AFFILIATE CONTENT CALENDAR\n\nWEEK 1 — VIDNOZ FOCUS\nMon Susan: 'How I manage my video production schedule'\nWed Alisha: 'Vidnoz tutorial — 10 minutes to professional video' (PROMO)\nThu Paul: 'Why businesses need weekly video in 2026'\nFri Lisa: 'AI video tools changing small business marketing'\nSat Lisa: 'Vidnoz affiliate promo — try free link below'\n\nWEEK 2 — INVIDEO FOCUS\nMon Susan: 'Creating a content calendar that actually works'\nWed Alisha: 'InVideo affiliate ad templates — quick tutorial' (PROMO)\nThu Paul: 'The video tool that replaced my editing team'\nFri Lisa: 'InVideo vs traditional video production: the numbers'\nSat Lisa: 'InVideo affiliate promo — 30% off link below'\n\nWEEK 3 — MAILERLITE FOCUS\nMon Susan: 'Why your email list is worth more than your social following'\nWed Alisha: 'How I built a 1,000 subscriber email list in 30 days'\nThu Paul: 'The asset nobody talks about: your email list'\nFri Lisa: 'MailerLite review: free email marketing for small business'\nSat Lisa: 'Get MailerLite free — earn $140 for each referral'\n\nWEEK 4 — CAPCUT & UDEMY\nRotate: CapCut editing tutorials and Udemy course reviews\n\nBECKY PROMPT: 'Build me a complete 4-week affiliate content calendar with scripts for all 5 anchors using this rotation schedule.'"} 
+]}, 
+{id:"anchors",emoji:"🎭",title:"Your 4 Anchors + Becky",color:"#e879f9",lessons:[ 
+{title:"Complete Anchor Guide",body:"YOUR 5 ANCHORS — COMPLETE REFERENCE\n\nLISA — Lead News Anchor\nAppearance: Professional Asian female, mid-30s, black blazer\nSchedule: Friday show + Saturday affiliate promo\nShows: Podcast (with Susan)\nBest for: Tech news, AI developments, serious analysis, credible endorsements\nVoice: Authoritative, CNN-style, fact-based\nElevenLabs voice: Professional female, high clarity\nWan2.2 style: MCU, studio lighting, news broadcast quality\n\nSUSAN — Authority Expert\nAppearance: Professional female, navy blazer\nSchedule: Monday show\nShows: Podcast (with Lisa), Business Show (with Alisha)\nBest for: Business content, lifestyle, how-to, trustworthy tutorials\nVoice: Warm, credible, knowledgeable\nElevenLabs voice: Warm professional female\nWan2.2 style: MCU/MS, natural lighting, expert setting\n\nPAUL — Trusted Grandfather\nAppearance: Male, overalls/beard, grandfather energy\nSchedule: Thursday show\nShows: Podcast 2 (with Alisha)\nBest for: Breaking news, bold claims, trust content, urgent topics\nVoice: Deep, steady, authoritative, grandfather warmth\nElevenLabs voice: Deep mature male, steady pace\nWan2.2 style: MS, warm home setting, soft lamp lighting\n\nALISHA — Charismatic Host\nAppearance: Female, blue top, glasses\nSchedule: Wednesday show\nShows: Podcast 2 (with Paul), Business (with Susan)\nBest for: Affiliate promos, product launches, sales content, high energy\nVoice: Energetic, persuasive, charismatic, FOMO-driven\nElevenLabs voice: Energetic female, upbeat pace\nWan2.2 style: MCU, bright studio, dynamic energy\n\nBECKY HOST + BECKY GUEST — Affiliate Show\nAppearance: Host=gold blouse | Guest=white blouse\nSchedule: As needed for affiliate content\nFormat: Interview style — Host interviews Guest about AI tool\nBest for: Affiliate product deep dives, tool reviews, recommendations\nKey: Guest is the 'expert' who discovered the tool. Host is the interviewer."}, 
+{title:"Show Teams & Schedules",body:"YOUR 4 SHOW FORMATS\n\nPODCAST (Lisa + Susan)\nDay: Varies (Lisa Fri / Susan Mon content feeds this)\nFormat: Professional news discussion\nTopics: AI news, business technology, digital trends\nLength: 60-90 seconds\nAffiliate integration: Natural mention in discussion\n\nPODCAST 2 (Paul + Alisha)\nDay: Thu/Wed content feeds this\nFormat: Grandfather wisdom meets modern energy\nTopics: Business lessons, AI tools for non-techies\nLength: 60-90 seconds\nAffiliate integration: Paul endorses, Alisha promotes\n\nBUSINESS SHOW (Alisha + Susan)\nDay: Wed/Mon content\nFormat: Business insights and tools\nTopics: Entrepreneurship, AI business tools, local business\nLength: 60-90 seconds\nAffiliate integration: Susan recommends, Alisha closes\n\nAFFILIATE SHOW (Becky Host + Becky Guest)\nDay: As needed\nFormat: Product discovery interview\nTopics: Specific AI tool or affiliate product\nLength: 90-120 seconds\nAffiliate integration: Core content — both Beckys love the tool\n\nBECKY PROMPT FOR ANY SHOW:\n'Write a [SHOW NAME] episode script for [ANCHOR 1] and [ANCHOR 2] about [TOPIC]. [LENGTH] seconds. Include natural affiliate mention for [PRODUCT] with CTA at end.'"} 
+]}, 
+{id:"tools",emoji:"🛠",title:"New AI Tools 2026",color:"#06b6d4",badge:"NEW",lessons:[ 
+{title:"Google Stitch — Free AI Designer",body:"GOOGLE STITCH — YOUR FREE AI DESIGN TOOL\nURL: stitch.withgoogle.com\n\nWHAT IT DOES:\nType a description in plain English → Stitch builds a complete website, landing page, or app UI in real time. You steer it while it builds.\n\nGOOGLE I/O 2026 UPDATES (May 20):\n• Continuous streaming — renders UI as you type, not after\n• Real-time multiplayer editing (free — multiple people at once)\n• Direct Netlify publish — goes live with one click, no developer needed\n• design.md — your brand colors/fonts lock in across all pages\n\nFOR YOUR STUDIO — USE CASES:\n1. Affiliate landing pages (Lisa/Alisha promos)\n2. YouTube thumbnails and channel art\n3. Email opt-in pages for MailerLite list building\n4. Local business promo pages\n5. Hub Engine style pages for clients\n\nGET STARTED IN 5 MINUTES:\n1. Go to stitch.withgoogle.com\n2. Type: 'Design a landing page for [YOUR AFFILIATE PRODUCT]. Dark background, gold buttons, professional news style. Email capture form. 3 benefits. CTA button.'\n3. Watch it build in real time\n4. Click Export → Netlify → LIVE\n\nFREE. No subscription. No watermark."}, 
+{title:"Free LLM API — 800M Free Tokens",body:"FREE LLM API — RUN 14 AI PROVIDERS FREE\nURL: github.com/NousResearch/free-llm-api\n\nWHAT IT DOES:\nSelf-hosted proxy that stacks 14 free AI provider tiers behind one OpenAI-compatible endpoint. Auto-failover between providers.\n\nFREE PROVIDERS INCLUDED:\n• Google Gemini 2.5 Flash (best quality)\n• Groq Llama 3.3 70B (fastest speed)\n• GitHub GPT-4o (free with GitHub account)\n• Cerebras (ultra fast)\n• Nvidia (strong models)\n• Mistral (European AI)\n• HuggingFace (100+ models)\n• + 7 more\n\nTOTAL FREE TOKENS: ~800 million/month\n\nSETUP (Windows):\n1. Install Node.js v20+ from nodejs.org\n2. Install Git from git-scm.com\n3. Clone the repo and npm install\n4. Set up .env with encryption key\n5. npm run dev → dashboard at localhost:5173\n\nADD FREE KEYS:\n• Google: aistudio.google.com → Get API Key\n• Groq: console.groq.com → API Keys\n• GitHub: Settings → Developer → Access Tokens\n\nFALLBACK CHAIN:\nGemini 2.5 → Groq → GitHub → rest\nAuto-skips rate-limited providers. Resets midnight UTC.\n\nPOINT ANY APP AT: localhost:3001/v1\nYour Agent OS, Hermes, and Hub Engine all use this for free."}, 
+{title:"Agent OS — Multi-Agent Command",body:"AGENT OS — 6 AGENTS RUNNING SIMULTANEOUSLY\n\nYour Agent OS Multi-Agent Command Center runs 6 specialized AI agents at the same time.\n\nYOUR 6 AGENTS:\n• Content Agent — Scripts, copy, SEO, affiliate content\n• Video Agent — Wan2.2 prompts, ElevenLabs, FFmpeg commands\n• Research Agent — Trends, competitor analysis, affiliate research\n• Email Agent — Outreach, sequences, follow-ups\n• Social Agent — YouTube titles, TikTok hooks, LinkedIn posts\n• Strategy Agent — Planning, roadmaps, business growth\n\nBROADCAST FEATURE:\nType one task → hit ALL → all 6 agents work simultaneously\nExample: 'Plan our Vidnoz affiliate campaign for next month'\n→ Content Agent: writes the scripts\n→ Video Agent: plans the Wan2.2 production\n→ Research Agent: finds Vidnoz competitor data\n→ Email Agent: writes the email sequence\n→ Social Agent: writes all captions\n→ Strategy Agent: builds the 4-week plan\n\nAll 6 done in under 90 seconds.\n\nACCESS YOUR AGENT OS:\nDownload the Multi-Agent Command Center HTML file\nOpen in any browser — works immediately\nAdd API key in Settings (Claude or Groq key accepted)\nHit LAUNCH ALL AGENTS"}, 
+{title:"Hermes Agent Hub — Local Autonomy",body:"HERMES AGENT HUB — AUTONOMOUS TASK MANAGER\nURL: github.com/NousResearch/hermes-agent\n\nWHAT IT IS:\nHermes is an open-source agent app that runs autonomously on your local computer. It manages tasks, builds skills, and runs workflows on a schedule — while you sleep.\n\nKEY FEATURES:\n• Kanban board — manage agent tasks visually\n• Skills system — reusable workflow templates\n• Goal mode — give it a goal, it runs start to finish\n• Schedule timers — runs tasks automatically at set times\n• Saves outputs to your workspace\n• Reads your memory vault/Obsidian\n\nSETUP FOR YOUR STUDIO:\n1. Open Terminal on your laptop\n2. Run Hermes installer\n3. When it asks for API key: paste your GROQ key (gsk_...)\n4. Select model: llama-3.3-70b-versatile\n5. Press Enter through remaining setup\n\nONCE RUNNING — SET THESE GOALS:\n• 'Every Monday: Generate Susan's script for this week'\n• 'Every Wednesday: Generate Alisha's script'\n• 'Every Friday: Generate Lisa's news script and affiliate promo'\n• 'Weekly: Research top 5 AI tool stories for this week'\n\nHermes runs these automatically. You review and approve. Done.\n\nYOUR HERMES AGENT HUB is live on your GitHub at:\nAffiliateMediaHub-Studio/hermes-agent-hub"}, 
+{title:"NotebookLM — Research Engine",body:"NOTEBOOKLM — YOUR FREE RESEARCH BRAIN\nURL: notebooklm.google.com\n\nWHAT IT DOES:\nUpload any source (PDF, YouTube URL, article, audio). NotebookLM reads it and lets you chat with the content, generate summaries, audio podcasts, video overviews, and slide decks.\n\nPOWERED BY: Gemini 3 with Deep Research\n\nFOR AFFILIATEMEDIAHUB STUDIO:\n\n1. RESEARCH NOTEBOOKS:\nCreate one notebook per affiliate product\nUpload: Product website, reviews, competitor comparisons\nAsk: 'What are the 5 strongest benefits I should highlight?'\n\n2. COMPETITOR RESEARCH:\nUpload competitor YouTube transcripts\nAsk: 'What topics are they covering that I am not?'\n\n3. AUDIO OVERVIEW TOOL:\nUpload your script → Click Audio Overview\nNotebookLM creates a podcast-style audio discussion of your content\n\n4. SLIDE DECK GENERATOR:\nUpload any research → Click Slides\nComplete slide deck in seconds\n\nCONNECT TO AGENT OS:\nUse the community MCP server for NotebookLM\nClaude can then: open notebooks, add sources, trigger outputs, pull results to your gallery\nAll from one command in your Agent OS chat\n\nSETUP TIP: Use a dedicated Google account for the MCP connection (keeps your main Google account clean)."} 
+]}, 
+{id:"business",emoji:"💼",title:"Local Business Sales System",color:"#fb923c",lessons:[ 
+{title:"Your 60-Second Sales Pitch",body:"SAY THIS TO LOCAL BUSINESSES IN SOUTHEAST TEXAS:\n\n'Hi, my name is John Lanter. I run an AI media production company here in Southeast Texas. I create professional promotional videos for local businesses using AI technology — completely automatically.\n\nEach video gets posted to your social media every single week. No cameras, no film crews, no editing on your end. Just a clean professional video every week that keeps your customers engaged and brings in new ones.\n\nI use the same AI technology that national news studios use. My videos look network-quality and I produce them in minutes.\n\nI can show you a sample right now on my phone. Would you have 2 minutes to take a look?'\n\nTHEN SHOW YOUR BEST LISA OR ALISHA SAMPLE VIDEO.\n\nIf they like it — you have a client.\n\nFOLLOW-UP CLOSE:\n'What I would like to do is create 2 videos completely free for your business — no commitment, no credit card. You keep them either way. If you love them we talk about a simple monthly package. Does that sound fair?'\n\nNOBODY SAYS NO TO FREE."}, 
+{title:"Pricing Your Video Service",body:"YOUR SERVICE PACKAGES\n\nSTARTER — $200/month\n• 4 videos per month\n• One platform (YouTube or Facebook)\n• Standard anchor (Susan or Alisha)\n• Script review by client\n\nPROFESSIONAL — $400/month\n• 8 videos per month\n• Two platforms with platform-specific captions\n• Custom anchor selection\n• Client-approved scripts\n• Monthly performance report\n\nPREMIUM — $700/month\n• Daily videos (20+ per month)\n• All 5 platforms\n• Multiple anchors\n• Custom brand avatar option\n• Weekly strategy call\n• Priority turnaround\n\nFIRST CLIENT CLOSE OFFER:\n'Let me create 2 videos completely FREE — no commitment. If you love them, the Starter package is $200/month. That is $50 per video. What does one new customer cost you to acquire? Usually much more than $50.'\n\nBUSINESSES THAT BUY FIRST:\n• Restaurants (before/after hours promos)\n• Real estate agents (listing videos)\n• Gyms and fitness studios\n• Automotive dealerships\n• Medical and dental practices\n• Insurance agents\n• Any retail with foot traffic\n\nSOUTHEAST TEXAS TARGETS:\nOrange, Beaumont, Port Arthur, Bridge City, Vidor, Groves"}, 
+{title:"Handling Objections",body:"OBJECTION HANDLING — WHAT TO SAY\n\nI CANNOT AFFORD IT:\n'That is exactly why I offer the free trial. Two videos at zero cost. Once you see the results, the investment pays for itself with one new customer. What does one new customer worth to your business? Let me show you a sample right now.'\n\nWE ALREADY HAVE SOMEONE FOR SOCIAL MEDIA:\n'Video is the number one driver of engagement on every platform right now — Facebook, Instagram, TikTok. I am not replacing what you have — I am adding professional video every week. Most social media managers love having video delivered to them ready to post.'\n\nI NEED TO THINK ABOUT IT:\n'While you think about it — let me create one sample video for your business completely free this week. Can I get your business name and logo? You keep the video no matter what you decide.'\n\nHOW DO I KNOW THIS ACTUALLY WORKS:\n'Businesses using weekly professional video see on average 3x more engagement and 40% more website traffic from social. But you do not have to take my word for it — let me show the sample I made for [similar business nearby].'\n\nI HAD A BAD EXPERIENCE WITH SOCIAL MEDIA BEFORE:\n'I understand. The difference with my system is you see the video and approve it before it ever gets posted. You have complete control and you are never charged until you are happy with the product.'"} 
+]}, 
+{id:"funnel",emoji:"🔻",title:"Funnel Building 101",color:"#06b6d4",lessons:[ 
+{title:"What Is A Funnel",body:"A FUNNEL is the path a stranger takes to become a paying customer.\n\nTHE 4 STAGES:\n\nSTAGE 1 — AWARENESS\nThey do not know you exist yet.\nYour job: Get their attention with a Lisa or Alisha video.\nPlatform: YouTube, TikTok, Instagram Reels\n\nSTAGE 2 — INTEREST\nThey watched your video and want more.\nYour job: Send them to a landing page.\nTool: Google Stitch landing page → MailerLite email capture\nExample: 'Get my free AI Video Toolkit — link in bio'\n\nSTAGE 3 — DESIRE\nThey are on your email list.\nYour job: Show them WHY they need your product.\nTool: Your 3-email Becky-written sequence does this automatically.\n\nSTAGE 4 — ACTION\nThey are ready to buy.\nYour job: Clear CTA with your affiliate link.\nResult: You earn commission automatically.\n\nTHAT IS THE ENTIRE FUNNEL.\n\nBUILD YOUR FIRST FUNNEL TODAY:\n1. Make one Vidnoz tutorial video with Alisha\n2. Build a Stitch landing page in 10 minutes\n3. Connect MailerLite email capture\n4. Have Becky write your 3-email sequence\n5. Add affiliate link in email 3\n\nTOTAL COST: $5/month (ElevenLabs only)"}, 
+{title:"Becky Funnel Copy System",body:"BECKY WRITES ALL YOUR FUNNEL COPY\n\nAsk Becky in the Becky tab:\n\nLANDING PAGE HEADLINE:\n'Write 5 landing page headlines for a Vidnoz affiliate opt-in page. Target: small business owners who want professional videos but have no camera skills. Offer: free AI video toolkit.'\n\nEMAIL SEQUENCE:\n'Write a 3-email affiliate sequence for Vidnoz using Susan's warm voice. Day 1: deliver free toolkit + introduce the problem. Day 2: present Vidnoz as the solution with specific benefits. Day 3: strong CTA with affiliate link and limited-time angle. Each under 200 words.'\n\nCTA BUTTONS:\n'Write 5 CTA button text options for a Vidnoz affiliate landing page. Urgency without being pushy. Free trial angle.'\n\nEMAIL SUBJECT LINES:\n'Write 10 email subject lines for a Vidnoz affiliate campaign. Mix of curiosity, benefit, and story-based. Target: local business owners in Southeast Texas.'\n\nALL HEADLINES BECKY PRODUCES ANSWER ONE QUESTION:\n'What is in it for me?'\n\nBECKY MAKES SURE EVERY WORD EARNS ITS PLACE."} 
+]} 
+]; 
+</script> 
+<script type="text/babel"> 
+const{useState,useEffect,useRef}=React; 
+const PASS="JohnHub2025"; 
+const TRACKS_WITH_PROGRESS=window.TRACKS; 
+function App(){ 
+const[auth,setAuth]=useState(false); 
+const[pw,setPw]=useState(''); 
+const[shake,setShake]=useState(false); 
+const[tab,setTab]=useState('home'); 
+const[track,setTrack]=useState(null); 
+const[lesson,setLesson]=useState(null); 
+const[progress,setProgress]=useState(()=>{try{return JSON.parse(localStorage.getItem('he4prog')||'{}')}catch{return{}}}); 
+const[beckyCx,setBeckyCx]=useState([{role:'assistant',content:"Hi John! I'm Becky — your AffiliateMediaHub AI Production Manager.\n\nI know your complete setup:\n• Wan2.2 Factory (ElevenLabs→Wan2.2→FFmpeg→CapCut)\n• 5 Anchors: Lisa, Susan, Paul, Alisha, Becky Host+Guest\n• Schedule: Susan Mon, Alisha Wed, Paul Thu, Lisa Fri+Sat\n• Stack: Groq+ElevenLabs+FreeStack+Render+Vercel ($5/mo)\n\nTell me what to build and I'll produce the complete package!"}]); 
+const[beckyInput,setBeckyInput]=useState(''); 
+const[beckyLoading,setBeckyLoading]=useState(false); 
+const[apiKey,setApiKey]=useState(()=>localStorage.getItem('he4key')||''); 
+const[provider,setProvider]=useState(()=>localStorage.getItem('he4provider')||'groq'); 
+const[keyInput,setKeyInput]=useState(''); 
+const[modal,setModal]=useState(null); 
+const chatRef=useRef(null); 
+useEffect(()=>{if(chatRef.current)chatRef.current.scrollTop=chatRef.current.scrollHeight;},[beckyCx]); 
+const saveProgress=(tid,lid)=>{ 
+const np={...progress,[tid+'_'+lid]:true}; 
+setProgress(np);localStorage.setItem('he4prog',JSON.stringify(np)); 
+}; 
+const login=()=>{ 
+if(pw===PASS){setAuth(true);} 
+else{setShake(true);setTimeout(()=>setShake(false),600);} 
+}; 
+const callAI=async(messages)=>{ 
+if(!apiKey)return"Please add your API key in the HOME tab Settings section first."; 
+const systemPrompt=`You are Becky, the AI Production Manager for AffiliateMediaHub Studio owned by John Lanter in Orange, Texas. STUDIO CONTEXT: - Hub Engine V4 — complete AI video production platform - Stack: Groq (free) + ElevenLabs ($5/mo) + FreeStack Video (FFmpeg server, no watermark) + YouTube OAuth + Render + Vercel JohnHub2026 - Total monthly cost: $5/month WAN2.2 FACTORY WORKFLOW: Step 1: Write script → ElevenLabs generates professional audio Step 2: Break into scenes → Wan2.2 generates video clips Step 3: FFmpeg merges audio + scenes into final video Step 4: CapCut adds captions and polish Step 5: YouTube OAuth publishes directly CAST SCHEDULE: - Lisa (news anchor, black blazer) → Friday show + Saturday affiliate promo - Susan (authority expert, navy blazer) → Monday show - Paul (trusted grandfather, overalls/beard) → Thursday show - Alisha (charismatic host, blue top/glasses) → Wednesday show - Becky Host (gold blouse) + Becky Guest (white blouse) → Affiliate show (as needed) SHOW TEAMS: - Podcast: Lisa + Susan - Podcast 2: Paul + Alisha - Business Show: Alisha + Susan - Affiliate Show: Becky Host + Becky Guest AFFILIATE PROGRAMS: 1. Vidnoz — 50% commission (top earner) 2. InVideo — 30% commission 3. MailerLite — $140 per referral 4. CapCut — revenue share 5. Udemy — 15% per course YOUR ROLE AS BECKY: When John asks for a video — produce the COMPLETE package: 1. Full word-for-word anchor script with timing marks 2. ElevenLabs voice settings for that anchor 3. 8-10 Wan2.2 scene prompts (shot type, subject, setting, lighting, mood) 4. FFmpeg merge command for the scenes 5. CapCut caption instructions 6. YouTube package (5 titles, description with affiliate links, 30 hashtags in 3 tiers, thumbnail text) Be specific, production-ready, and actionable. John runs the clicks. You do the thinking.`; 
+try{ 
+if(provider==='groq'){ 
+const msgs=[{role:'system',content:systemPrompt},...messages]; 
+const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{ 
+method:'POST', 
+headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey}, 
+body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1500,messages:msgs}) 
+}); 
+const d=await r.json(); 
+return d.choices?.[0]?.message?.content||d.error?.message||'No response from Groq.'; 
+} else { 
+const r=await fetch('https://api.anthropic.com/v1/messages',{ 
+method:'POST', 
+headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, 
+body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:systemPrompt,messages}) 
+}); 
+const d=await r.json(); 
+return d.content?.[0]?.text||d.error?.message||'No response from Claude.'; 
+} 
+}catch(e){return'Connection error. Check your API key and try again.';} 
+}; 
+const sendBecky=async()=>{ 
+if(!beckyInput.trim()||beckyLoading)return; 
+const userMsg={role:'user',content:beckyInput}; 
+const newCx=[...beckyCx,userMsg]; 
+setBeckyCx(newCx);setBeckyInput('');setBeckyLoading(true); 
+const reply=await callAI(newCx.map(m=>({role:m.role,content:m.content}))); 
+setBeckyCx([...newCx,{role:'assistant',content:reply}]); 
+setBeckyLoading(false); 
+}; 
+const saveKey=()=>{ 
+if(keyInput.length>10){ 
+setApiKey(keyInput); 
+localStorage.setItem('he4key',keyInput); 
+localStorage.setItem('he4provider',provider); 
+setKeyInput(''); 
+setModal({title:'Key Saved!',body:'Your '+provider.toUpperCase()+' API key is saved. Becky is now fully powered and ready to build!'}); 
+} 
+}; 
+const totalLessons=TRACKS_WITH_PROGRESS.reduce((a,t)=>a+t.lessons.length,0); 
+const completedLessons=Object.keys(progress).filter(k=>progress[k]).length; 
+const completionPct=totalLessons>0?Math.round((completedLessons/totalLessons)*100):0; 
+if(!auth) return( 
+<div style={{minHeight:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,background:'#06070d'}}> 
+<div style={{fontSize:56,marginBottom:20}}>🤖</div> 
+<div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:36,fontWeight:900,color:'#f0a500',letterSpacing:'-0.02em',textAlign:'center',lineHeight:1.1}}>THE HUB<br/>ENGINE V4</div> 
+<div style={{color:'#3a4156',fontSize:12,letterSpacing:'0.2em',marginTop:8,marginBottom:40}}>AFFILIATEMEDIAHUB STUDIO</div> 
+<div style={{width:'100%',maxWidth:400}}> 
+<div style={{fontSize:11,fontWeight:700,color:'#f0a500',letterSpacing:'0.15em',marginBottom:10}}>ACCESS PASSWORD</div> 
+<input type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&login()} style={{width:'100%',background:'#0d1017',border:'1px solid #1e2433',borderRadius:14,padding:'18px 20px',color:'#fff',fontSize:16,marginBottom:16,animation:shake?'shake 0.4s ease':'none'}} placeholder="••••••••" autoFocus/> 
+<button onClick={login} style={{width:'100%',padding:'18px',background:'linear-gradient(135deg,#f0a500,#c06000)',border:'none',borderRadius:14,color:'#06070d',fontSize:16,fontWeight:800,cursor:'pointer',letterSpacing:'0.05em'}}> 🚀 ENTER THE HUB </button> 
+</div> 
+<div style={{color:'#1e2433',fontSize:11,marginTop:30,textAlign:'center'}}>Hub Engine V4 · AffiliateMediaHub Studio · 2026</div> </div> 
+); 
+const navItems=[ 
+{id:'home',emoji:'🏠',label:'HOME'}, 
+{id:'becky',emoji:'🎙',label:'BECKY'}, 
+{id:'jobs',emoji:'💼',label:'JOBS'}, 
+{id:'actors',emoji:'🎭',label:'ACTORS'}, 
+{id:'studio',emoji:'🎬',label:'STUDIO'}, 
+]; 
+const renderLesson=()=>( 
+<div style={{padding:16}}> 
+<button onClick={()=>setLesson(null)} style={{background:'none',border:'none',color:'#f0a500',fontSize:14,fontWeight:700,cursor:'pointer',marginBottom:16,padding:0}}>← Back to {track?.title}</button> 
+<div style={{background:'#0d1017',border:'1px solid #1e2433',borderRadius:16,padding:20,marginBottom:16}}> 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:8}}>{track?.title.toUpperCase()}</div> 
+<div style={{fontSize:18,fontWeight:800,color:'#fff',marginBottom:20,lineHeight:1.3}}>{lesson?.title}</div> 
+<div style={{fontSize:14,color:'#b0b8d0',lineHeight:1.9,whiteSpace:'pre-line'}}>{lesson?.body}</div> 
+</div> 
+<button onClick={()=>{saveProgress(track.id,lesson.title);setLesson(null);}} style={{width:'100%',padding:16,background:'linear-gradient(135deg,#f0a500,#c06000)',border:'none',borderRadius:12,color:'#06070d',fontWeight:800,fontSize:14,cursor:'pointer'}}> ✓ MARK COMPLETE & CONTINUE </button> 
+</div> 
+); 
+const renderTrack=()=>( 
+<div style={{padding:16}}> 
+<button onClick={()=>setTrack(null)} style={{background:'none',border:'none',color:'#f0a500',fontSize:14,fontWeight:700,cursor:'pointer',marginBottom:16,padding:0}}>← Back to Courses</button> 
+<div style={{background:'#0d1017',border:'1px solid #1e2433',borderRadius:16,padding:20,marginBottom:16}}> 
+<div style={{fontSize:32,marginBottom:8}}>{track?.emoji}</div> 
+<div style={{fontSize:20,fontWeight:800,color:'#fff',marginBottom:4}}>{track?.title}</div> 
+<div style={{fontSize:13,color:'#6b7280'}}>{track?.lessons.length} lessons</div> 
+</div> {track?.lessons.map((l,i)=>{ 
+const done=progress[track.id+'_'+l.title]; 
+return( 
+<button key={i} onClick={()=>{setLesson(l);}} style={{width:'100%',background:done?'#0a1a0a':'#0d1017',border:`1px solid ${done?'#10b981':'#1e2433'}`,borderRadius:12,padding:'16px',marginBottom:10,textAlign:'left',cursor:'pointer',display:'flex',alignItems:'center',gap:12}}> 
+<div style={{width:28,height:28,borderRadius:'50%',background:done?'#10b981':'#1e2433',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:12,color:done?'#fff':'#3a4156',fontWeight:700}}> {done?'✓':i+1} </div> 
+<div style={{flex:1}}> 
+<div style={{fontSize:13,fontWeight:600,color:done?'#10b981':'#e8eaf0',lineHeight:1.3}}>{l.title}</div> 
+</div> 
+<div style={{color:'#3a4156',fontSize:16}}>›</div> 
+</button> 
+); 
+})} </div> 
+); 
+const renderHome=()=>( 
+<div style={{padding:16}}> 
+{/* HEADER */} 
+<div style={{background:'linear-gradient(135deg,#0d1017,#141822)',border:'1px solid #1e2433',borderRadius:20,padding:20,marginBottom:16,textAlign:'center'}}> 
+<div style={{fontSize:42,marginBottom:8}}>⚡</div> 
+<div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:900,color:'#f0a500'}}>HUB ENGINE V4</div> 
+<div style={{color:'#6b7280',fontSize:11,letterSpacing:'0.15em',marginTop:4}}>AFFILIATEMEDIAHUB STUDIO</div> 
+<div style={{marginTop:12,background:'#1e2433',borderRadius:8,height:6,overflow:'hidden'}}> 
+<div style={{height:'100%',background:'linear-gradient(90deg,#f0a500,#e07000)',width:completionPct+'%',transition:'width 0.5s ease'}}/> </div> 
+<div style={{color:'#6b7280',fontSize:11,marginTop:6}}>{completedLessons}/{totalLessons} lessons complete · {completionPct}%</div> </div> 
+{/* QUICK LAUNCH */} 
+<div style={{background:'#0d1017',border:'1px solid #f0a50033',borderRadius:16,padding:16,marginBottom:16}}> 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:12}}>⚡ QUICK LAUNCH — TODAY'S WORKFLOW</div> {[ 
+{emoji:'🎬',label:"Becky: Build today's video",action:()=>{setTab('becky');setBeckyInput("Build a complete video package for today. Use the scheduled anchor for today's day of the week.");}}, 
+{emoji:'✍️',label:'Generate this week\'s scripts',action:()=>{setTab('becky');setBeckyInput("Write all 5 scripts for this week: Monday=Susan, Wednesday=Alisha, Thursday=Paul, Friday=Lisa news, Saturday=Lisa affiliate promo for Vidnoz.");}}, 
+{emoji:'📱',label:'Social captions for all platforms',action:()=>{setTab('becky');setBeckyInput("Write platform-specific social captions for a video about AI tools for small businesses. All 5 platforms: YouTube, Facebook, Instagram, TikTok, LinkedIn. Include hashtags.");}}, 
+{emoji:'📧',label:'Write affiliate email sequence',action:()=>{setTab('becky');setBeckyInput("Write a 3-email affiliate sequence for Vidnoz using Susan's warm voice. Day 1: deliver free toolkit + the problem. Day 2: Vidnoz solution + benefits. Day 3: strong CTA with affiliate link.");}} 
+].map((btn,i)=>( 
+<button key={i} onClick={btn.action} style={{width:'100%',background:'#141822',border:'1px solid #1e2433',borderRadius:10,padding:'12px 14px',marginBottom:8,textAlign:'left',cursor:'pointer',display:'flex',alignItems:'center',gap:10}}> 
+<span style={{fontSize:18}}>{btn.emoji}</span> 
+<span style={{fontSize:13,color:'#e8eaf0',fontWeight:500}}>{btn.label}</span> 
+<span style={{marginLeft:'auto',color:'#f0a500',fontSize:14}}>→</span> 
+</button> 
+))} </div> 
+{/* API KEY SETUP */} 
+<div style={{background:'#0d1017',border:`1px solid ${apiKey?'#10b981':'#f0a500'}`,borderRadius:16,padding:16,marginBottom:16}}> 
+<div style={{fontSize:11,color:apiKey?'#10b981':'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:10}}> {apiKey?'✓ BECKY IS POWERED — API KEY ACTIVE':'⚠️ ADD API KEY TO POWER BECKY'} </div> {apiKey?( 
+<div> 
+<div style={{fontSize:12,color:'#6b7280',marginBottom:8}}>Provider: {localStorage.getItem('he4provider')||'groq'} · Key saved securely</div> 
+<button onClick={()=>{setApiKey('');setKeyInput('');localStorage.removeItem('he4key');}} style={{background:'none',border:'1px solid #ef4444',borderRadius:8,color:'#ef4444',padding:'6px 12px',fontSize:11,fontWeight:700,cursor:'pointer'}}>REMOVE KEY</button> 
+</div> ):( 
+<div> 
+<select value={provider} onChange={e=>setProvider(e.target.value)} style={{width:'100%',background:'#141822',border:'1px solid #1e2433',borderRadius:8,color:'#e8eaf0',padding:'10px 12px',fontSize:12,marginBottom:8}}> 
+<option value="groq">Groq (Free) — console.groq.com → key starts with gsk_</option> 
+<option value="claude">Claude (Anthropic) — console.anthropic.com → key starts with sk-ant</option> 
+</select> 
+<input type="text" value={keyInput} onChange={e=>setKeyInput(e.target.value)} placeholder={provider==='groq'?'Paste your Groq key: gsk_...':'Paste your Claude key: sk-ant-...'} style={{width:'100%',background:'#141822',border:'1px solid #1e2433',borderRadius:8,color:'#e8eaf0',padding:'10px 12px',fontSize:12,marginBottom:8}} autoComplete="off" autoCorrect="off" spellCheck="false"/> 
+<button onClick={saveKey} style={{width:'100%',background:'linear-gradient(135deg,#f0a500,#c06000)',border:'none',borderRadius:8,color:'#06070d',padding:'12px',fontWeight:800,fontSize:13,cursor:'pointer'}}> SAVE API KEY & POWER UP BECKY </button> 
+<div style={{fontSize:10,color:'#3a4156',marginTop:6,textAlign:'center'}}>Stored locally on your device only · Never shared</div> </div> 
+)} </div> 
+{/* STACK STATUS */} 
+<div style={{background:'#0d1017',border:'1px solid #1e2433',borderRadius:16,padding:16,marginBottom:16}}> 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:12}}>📡 YOUR LIVE STACK — $5/MONTH TOTAL</div> {[ 
+{name:'ElevenLabs',detail:'Professional voiceover',cost:'$5/mo',status:'active'}, 
+{name:'Wan2.2',detail:'AI video generation',cost:'FREE',status:'active'}, 
+{name:'FreeStack Video',detail:'FFmpeg server, no watermark',cost:'FREE',status:'active'}, 
+{name:'Groq API',detail:'Fast free AI (llama-3.3-70b)',cost:'FREE',status:'active'}, 
+{name:'Google Gemini',detail:'Gemini 2.5 Flash via AI Studio',cost:'FREE',status:'active'}, 
+{name:'Free LLM API',detail:'800M tokens/month combined',cost:'FREE',status:'active'}, 
+{name:'Google Stitch',detail:'AI design + Netlify publish',cost:'FREE',status:'active'}, 
+{name:'YouTube OAuth',detail:'Direct publishing',cost:'FREE',status:'active'}, 
+{name:'Vercel JohnHub2026',detail:'Hosting',cost:'FREE',status:'active'}, 
+{name:'Render',detail:'Backend server',cost:'FREE',status:'active'}, 
+].map((s,i)=>( 
+<div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid #1e2433'}}> 
+<div> 
+<div style={{fontSize:12,fontWeight:600,color:'#e8eaf0'}}>{s.name}</div> 
+<div style={{fontSize:10,color:'#6b7280'}}>{s.detail}</div> 
+</div> 
+<div style={{textAlign:'right'}}> 
+<div style={{fontSize:11,fontWeight:700,color:s.cost==='FREE'?'#10b981':'#f0a500'}}>{s.cost}</div> 
+<div style={{fontSize:9,color:'#10b981'}}>● ACTIVE</div> 
+</div> 
+</div> 
+))} </div> 
+{/* COURSES */} 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:12}}>📚 COURSES & TRAINING</div> {TRACKS_WITH_PROGRESS.map((t,i)=>{ 
+const done=t.lessons.filter(l=>progress[t.id+'_'+l.title]).length; 
+const pct=Math.round((done/t.lessons.length)*100); 
+return( 
+<button key={i} onClick={()=>{setTrack(t);setLesson(null);setTab('studio');}} style={{width:'100%',background:'#0d1017',border:'1px solid #1e2433',borderRadius:14,padding:16,marginBottom:10,textAlign:'left',cursor:'pointer',display:'flex',alignItems:'center',gap:14}}> 
+<div style={{fontSize:28,flexShrink:0}}>{t.emoji}</div> 
+<div style={{flex:1}}> 
+<div style={{display:'flex',alignItems:'center',gap:6}}> 
+<div style={{fontSize:13,fontWeight:700,color:'#e8eaf0'}}>{t.title}</div> {t.badge&&<span style={{background:'#f0a500',color:'#06070d',fontSize:8,fontWeight:800,padding:'2px 5px',borderRadius:4}}>{t.badge}</span>} 
+</div> 
+<div style={{fontSize:11,color:'#6b7280',marginTop:2}}>{done}/{t.lessons.length} complete · {pct}%</div> 
+<div style={{background:'#1e2433',borderRadius:4,height:3,marginTop:6,overflow:'hidden'}}> 
+<div style={{height:'100%',background:t.color,width:pct+'%',transition:'width 0.5s'}}/> </div> 
+</div> 
+<div style={{color:'#3a4156',fontSize:18}}>›</div> 
+</button> 
+); 
+})} </div> 
+); 
+const renderBecky=()=>( 
+<div style={{display:'flex',flexDirection:'column',height:'calc(100vh - 60px)'}}> 
+<div style={{padding:'12px 16px',background:'#0d1017',borderBottom:'1px solid #1e2433'}}> 
+<div style={{display:'flex',alignItems:'center',gap:10}}> <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#f0a500,#c06000)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🎙</div> 
+<div> 
+<div style={{fontSize:14,fontWeight:800,color:'#f0a500'}}>BECKY — Production Manager</div> 
+<div style={{fontSize:10,color:apiKey?'#10b981':'#ef4444'}}>{apiKey?'● POWERED UP — Ready to build':'● ADD API KEY IN HOME TAB'}</div> 
+</div> </div> 
+<div style={{display:'flex',gap:6,marginTop:10,overflowX:'auto',paddingBottom:4}}> {[ 
+"Build today's complete video", 
+"Write this week's 5 scripts", 
+"Wan2.2 scene prompts for Lisa", 
+"Vidnoz affiliate promo Alisha", 
+"YouTube package for this video", 
+"3-email MailerLite sequence", 
+"Google Stitch landing page prompt", 
+"Social captions all platforms", 
+].map((p,i)=>( 
+<button key={i} onClick={()=>setBeckyInput(p)} style={{background:'#141822',border:'1px solid #1e2433',borderRadius:20,padding:'6px 12px',color:'#b0b8d0',fontSize:10,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}> {p} </button> 
+))} </div> </div> 
+<div ref={chatRef} style={{flex:1,overflowY:'auto',padding:16,display:'flex',flexDirection:'column',gap:12}}> {beckyCx.map((m,i)=>( 
+<div key={i} style={{display:'flex',gap:10,flexDirection:m.role==='user'?'row-reverse':'row'}}> 
+<div style={{width:32,height:32,borderRadius:10,background:m.role==='user'?'#1e2433':'linear-gradient(135deg,#f0a500,#c06000)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,flexShrink:0}}> {m.role==='user'?'👤':'🎙'} </div> 
+<div style={{maxWidth:'82%',background:m.role==='user'?'#141822':'#0d1017',border:`1px solid ${m.role==='user'?'#1e2433':'#f0a50033'}`,borderRadius:14,padding:'12px 14px',fontSize:13,color:'#e8eaf0',lineHeight:1.7,whiteSpace:'pre-wrap'}}> {m.content} </div> 
+</div> 
+))} {beckyLoading&&( 
+<div style={{display:'flex',gap:10}}> 
+<div style={{width:32,height:32,borderRadius:10,background:'linear-gradient(135deg,#f0a500,#c06000)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14}}>🎙</div> 
+<div style={{background:'#0d1017',border:'1px solid #f0a50033',borderRadius:14,padding:'12px 14px',fontSize:13,color:'#6b7280',fontStyle:'italic'}}> Becky is building your production package... </div> </div> 
+)} </div> 
+<div style={{padding:'12px 16px',background:'#0d1017',borderTop:'1px solid #1e2433',display:'flex',gap:8}}> 
+<textarea value={beckyInput} onChange={e=>setBeckyInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendBecky();}}} placeholder="Tell Becky what to build — e.g. 'Build a full Vidnoz affiliate video with Lisa for this Friday'" style={{flex:1,background:'#141822',border:'1px solid #1e2433',borderRadius:12,color:'#e8eaf0',padding:'10px 14px',fontSize:13,resize:'none',minHeight:44,maxHeight:100,fontFamily:'DM Sans,sans-serif'}} rows={1}/> 
+<button onClick={sendBecky} disabled={beckyLoading||!beckyInput.trim()} style={{width:44,height:44,background:beckyLoading?'#1e2433':'linear-gradient(135deg,#f0a500,#c06000)',border:'none',borderRadius:12,cursor:'pointer',fontSize:18,opacity:beckyLoading?0.5:1,flexShrink:0}}> ↑ </button> 
+</div> </div> 
+); 
+const renderJobs=()=>( 
+<div style={{padding:16}}> 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:16}}>💼 JOB SEARCH — SE TEXAS</div> {[ 
+{title:'Operations Coordinator',type:'Full-Time',desc:'20+ years manufacturing ops leadership. Forklift certified. Team supervision. Log reporting. Prefer indoor/office environment.'}, 
+{title:'Warehouse Supervisor',type:'Full-Time',desc:'Lead Production Operator background at Lion Elastomers (plant closed Dec 2025). Conveyor systems, robotics, 3-shift operations management.'}, 
+{title:'Office/Admin Coordinator',type:'Full-Time',desc:'Strong organizational and reporting skills from manufacturing ops. Computer literate. Professional communication.'}, 
+{title:'Plant Operations Manager',type:'Full-Time',desc:'Senior-level manufacturing leadership. Process optimization, team training, safety compliance, production reporting.'}, 
+].map((j,i)=>( 
+<div key={i} style={{background:'#0d1017',border:'1px solid #1e2433',borderRadius:14,padding:16,marginBottom:12}}> 
+<div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}> 
+<div style={{fontSize:15,fontWeight:700,color:'#e8eaf0'}}>{j.title}</div> 
+<div style={{background:'#1e2433',borderRadius:6,padding:'3px 8px',fontSize:10,color:'#f0a500',fontWeight:700}}>{j.type}</div> 
+</div> 
+<div style={{fontSize:12,color:'#6b7280',lineHeight:1.6,marginBottom:10}}>{j.desc}</div> 
+<button onClick={()=>{setTab('becky');setBeckyInput(`Write a strong cover letter for John Lanter applying for ${j.title} position. John is 59, lives in Orange Texas, 20+ years manufacturing experience as Lead Production Operator at Lion Elastomers (plant closed December 2025). Skills: forklift certified, conveyor systems, robotics, team supervision, log reporting. Looking for indoor/office work. Professional but warm tone.`);}} style={{background:'#141822',border:'1px solid #f0a50044',borderRadius:8,color:'#f0a500',padding:'8px 14px',fontSize:11,fontWeight:700,cursor:'pointer'}}> BECKY WRITES COVER LETTER → </button> 
+</div> 
+))} <div style={{background:'#0d1017',border:'1px solid #1e2433',borderRadius:14,padding:16,marginTop:8}}> 
+<div style={{fontSize:11,color:'#10b981',fontWeight:700,letterSpacing:'0.1em',marginBottom:8}}>JOHN'S STRENGTHS</div> {['20+ years manufacturing operations','Lead Production Operator — Lion Elastomers','Forklift certified','Conveyor systems & robotics','Team supervision & training','Log reporting & documentation','Hub Engine V4 CEO — AI media production','AffiliateMediaHub Studio founder'].map((s,i)=>( 
+<div key={i} style={{fontSize:12,color:'#b0b8d0',padding:'4px 0',borderBottom:'1px solid #1e2433',display:'flex',gap:8}}> 
+<span style={{color:'#10b981'}}>✓</span>{s} </div> 
+))} </div> </div> 
+); 
+const renderActors=()=>( 
+<div style={{padding:16}}> 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:16}}>🎭 YOUR STUDIO CAST</div> {[ 
+{name:'LISA',role:'Lead News Anchor',schedule:'Friday + Saturday Affiliate',shows:'Podcast (with Susan)',blazer:'Black blazer',style:'CNN-style · Authoritative · Fact-based',emoji:'📰',color:'#3b82f6',tip:'Best for: Tech news, AI developments, serious analysis, credible endorsements'}, 
+{name:'SUSAN',role:'Authority Expert',schedule:'Monday Show',shows:'Podcast (with Lisa) · Business (with Alisha)',blazer:'Navy blazer',style:'Warm · Credible · Knowledgeable',emoji:'👩‍💼',color:'#10b981',tip:'Best for: Business content, tutorials, lifestyle, trustworthy recommendations'}, 
+{name:'PAUL',role:'Trusted Grandfather',schedule:'Thursday Show',shows:'Podcast 2 (with Alisha)',blazer:'Overalls · Beard',style:'Deep · Steady · Grandfatherly Authority',emoji:'👴',color:'#f59e0b',tip:'Best for: Breaking news, bold claims, trust content, urgent topics'}, 
+{name:'ALISHA',role:'Charismatic Host',schedule:'Wednesday Show',shows:'Podcast 2 (with Paul) · Business (with Susan)',blazer:'Blue top · Glasses',style:'Energetic · Persuasive · FOMO-driven',emoji:'⭐',color:'#e879f9',tip:'Best for: Affiliate promos, product launches, sales content, high energy'}, 
+{name:'BECKY HOST',role:'Affiliate Show Host',schedule:'As needed',shows:'Affiliate Show (with Becky Guest)',blazer:'Gold blouse',style:'Professional · Interview-style · Engaging',emoji:'🎙',color:'#f0a500',tip:'Best for: Product discovery interviews, affiliate deep dives'}, 
+{name:'BECKY GUEST',role:'Expert Guest',schedule:'As needed',shows:'Affiliate Show (with Becky Host)',blazer:'White blouse',style:'Expert · Enthusiastic · Recommender',emoji:'💡',color:'#f0a500',tip:'Best for: Tool reviews, discovery stories, affiliate recommendations'}, 
+].map((a,i)=>( 
+<div key={i} style={{background:'#0d1017',border:`1px solid ${a.color}33`,borderRadius:14,padding:16,marginBottom:12}}> 
+<div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}> 
+<div style={{width:44,height:44,borderRadius:12,background:a.color+'22',border:`1.5px solid ${a.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}> {a.emoji} </div> 
+<div style={{flex:1}}> 
+<div style={{fontSize:16,fontWeight:800,color:a.color}}>{a.name}</div> 
+<div style={{fontSize:11,color:'#6b7280'}}>{a.role} · {a.blazer}</div> 
+</div> 
+<div style={{background:a.color+'22',borderRadius:6,padding:'3px 8px',fontSize:9,color:a.color,fontWeight:700,textAlign:'right'}}>{a.schedule}</div> </div> 
+<div style={{fontSize:11,color:'#6b7280',marginBottom:6}}>Shows: {a.shows}</div> 
+<div style={{fontSize:11,color:'#b0b8d0',marginBottom:8,lineHeight:1.5}}>{a.tip}</div> 
+<button onClick={()=>{setTab('becky');setBeckyInput(`Write a complete 60-second ${a.name} video script and full Wan2.2 production package for today. Include: script, ElevenLabs voice settings, 8 scene prompts, FFmpeg command, CapCut instructions, and YouTube package.`);}} style={{background:'#141822',border:`1px solid ${a.color}44`,borderRadius:8,color:a.color,padding:'8px 14px',fontSize:11,fontWeight:700,cursor:'pointer',width:'100%'}}> BECKY: BUILD {a.name} VIDEO → </button> 
+</div> 
+))} </div> 
+); 
+const renderStudio=()=>{ 
+if(lesson)return renderLesson(); 
+if(track)return renderTrack(); 
+return( 
+<div style={{padding:16}}> 
+<div style={{fontSize:11,color:'#f0a500',fontWeight:700,letterSpacing:'0.1em',marginBottom:16}}>🎬 STUDIO — COURSES & TRAINING</div> {TRACKS_WITH_PROGRESS.map((t,i)=>{ 
+const done=t.lessons.filter(l=>progress[t.id+'_'+l.title]).length; 
+const pct=Math.round((done/t.lessons.length)*100); 
+return( 
+<button key={i} onClick={()=>{setTrack(t);setLesson(null);}} style={{width:'100%',background:'#0d1017',border:`1px solid ${t.color}33`,borderRadius:16,padding:18,marginBottom:12,textAlign:'left',cursor:'pointer'}}> 
+<div style={{display:'flex',alignItems:'center',gap:14,marginBottom:10}}> 
+<div style={{fontSize:32,flexShrink:0}}>{t.emoji}</div> 
+<div style={{flex:1}}> 
+<div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}> 
+<div style={{fontSize:15,fontWeight:800,color:'#e8eaf0'}}>{t.title}</div> {t.badge&&<span style={{background:'#f0a500',color:'#06070d',fontSize:8,fontWeight:800,padding:'2px 5px',borderRadius:4}}>{t.badge}</span>} 
+</div> 
+<div style={{fontSize:11,color:'#6b7280'}}>{t.lessons.length} lessons · {done} complete</div> 
+</div> </div> 
+<div style={{background:'#1e2433',borderRadius:4,height:4,overflow:'hidden'}}> 
+<div style={{height:'100%',background:t.color,width:pct+'%',borderRadius:4}}/> </div> 
+<div style={{fontSize:10,color:t.color,marginTop:6,fontWeight:700}}>{pct}% complete</div> </button> 
+); 
+})} </div> 
+); 
+}; 
+return( 
+<div style={{maxWidth:600,margin:'0 auto',background:'#06070d',minHeight:'100vh',position:'relative'}}> {modal&&( 
+<div className="mbg" onClick={()=>setModal(null)}> 
+<div className="modal" onClick={e=>e.stopPropagation()}> 
+<div style={{fontSize:18,fontWeight:800,color:'#f0a500',marginBottom:12}}>{modal.title}</div> 
+<div style={{fontSize:14,color:'#b0b8d0',lineHeight:1.7,whiteSpace:'pre-wrap'}}>{modal.body}</div> 
+<button onClick={()=>setModal(null)} style={{marginTop:16,width:'100%',padding:14,background:'linear-gradient(135deg,#f0a500,#c06000)',border:'none',borderRadius:12,color:'#06070d',fontWeight:800,fontSize:14,cursor:'pointer'}}>GOT IT</button> 
+</div> </div> 
+)} <div style={{paddingBottom:70}}> 
+{tab==='home'&&renderHome()} 
+{tab==='becky'&&renderBecky()} 
+{tab==='jobs'&&renderJobs()} 
+{tab==='actors'&&renderActors()} 
+{tab==='studio'&&renderStudio()} 
+</div> <nav style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:600,background:'#0a0c10',borderTop:'1px solid #1e2433',display:'flex',zIndex:100}}> {navItems.map(n=>( 
+<button key={n.id} onClick={()=>{setTab(n.id);if(n.id!=='studio'){setTrack(null);setLesson(null);}}} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:3,background:'none',border:'none',padding:'10px 0',cursor:'pointer',borderTop:`2px solid ${tab===n.id?'#f0a500':'transparent'}`}}> 
+<span style={{fontSize:18}}>{n.emoji}</span> 
+<span style={{fontSize:9,fontWeight:700,color:tab===n.id?'#f0a500':'#3a4156',letterSpacing:'0.05em'}}>{n.label}</span> 
+</button> 
+))} </nav> </div> 
+); 
+} ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App)); 
+</script> 
+</body> 
+</html>
