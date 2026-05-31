@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Hub Engine V4.1 — AffiliateMediaHub Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:rgba(240,165,0,.18);touch-action:manipulation}
+:root{
+  --bg:#06070d;--bg2:#0d1017;--bg3:#111520;--bg4:#161c28;
+  --gold:#f0a500;--teal:#00d4aa;--blue:#4f8ef7;--green:#34d399;
+  --red:#f87171;--purple:#a78bfa;--orange:#fb923c;--pink:#f472b6;
+  --txt:#e8eaf0;--muted:#6b7280;--border:#1e2433;
+  --sw:234px;--th:60px;--rad:12px;
+}
+html,body{height:100%;width:100%;overflow-x:hidden;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif}
+a{text-decoration:none;color:inherit}
+button,a.btn,.btn{min-height:52px;padding:14px 20px;font-size:15px;border-radius:var(--rad);font-family:'DM Sans',sans-serif;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.15s;font-weight:600}
+input,select,textarea{font-family:'DM Sans',sans-serif;min-height:52px;font-size:16px;padding:14px 16px;border-radius:var(--rad);outline:none;background:var(--bg3);border:1px solid var(--border);color:var(--txt);width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)!important}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f0a500' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
+.btn-gold{background:var(--gold);color:#000;font-weight:700}.btn-gold:hover{opacity:.85}
+.btn-teal{background:var(--teal);color:#000;font-weight:700}.btn-teal:hover{opacity:.85}
+.btn-blue{background:var(--blue);color:#fff;font-weight:700}.btn-blue:hover{opacity:.85}
+.btn-green{background:var(--green);color:#000;font-weight:700}.btn-green:hover{opacity:.85}
+.btn-ghost{background:var(--bg3);color:var(--txt);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+.btn-sm{min-height:46px;padding:11px 16px;font-size:14px}
+.btn-xs{min-height:40px;padding:8px 12px;font-size:12px}
+.w100{width:100%}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(240,165,0,.2)}50%{box-shadow:0 0 40px rgba(240,165,0,.5)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes load{from{width:0}to{width:100%}}
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s}
+#loader .ring{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#f0a500,#c06000);display:flex;align-items:center;justify-content:center;font-size:30px;animation:glow 2s infinite;margin-bottom:16px}
+#loader .lt{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:900;color:#fff;letter-spacing:1px}
+#loader .ls{font-size:10px;color:var(--gold);letter-spacing:4px;margin-top:4px}
+#loader .bar{width:180px;height:3px;background:var(--border);border-radius:2px;margin-top:20px;overflow:hidden}
+#loader .fill{height:100%;background:linear-gradient(90deg,#f0a500,#e07000);border-radius:2px;animation:load 2.8s ease forwards}
+#login-screen{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:8000;padding:20px}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:36px 28px;width:100%;max-width:380px;text-align:center;animation:popIn .3s ease}
+.login-lock{font-size:56px;margin-bottom:12px}
+.login-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:900;color:var(--gold);margin-bottom:4px}
+.login-sub{color:var(--muted);font-size:12px;margin-bottom:24px}
+.login-box input{margin-bottom:14px;letter-spacing:.12em;text-align:center}
+.login-err{color:var(--red);font-size:13px;margin-top:8px;display:none}
+.login-footer{margin-top:20px;font-size:11px;color:var(--muted);line-height:1.8}
+#app{display:none;min-height:100vh}
+#sidebar{position:fixed;top:0;left:0;width:var(--sw);height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:300;overflow-y:auto;transition:transform .25s}
+.sb-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+.sb-logo-text{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:900;color:var(--gold)}
+.sb-logo-sub{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
+.sb-ver{font-size:10px;color:var(--teal);margin-top:2px;font-weight:700}
+.sb-section{font-size:10px;color:var(--muted);padding:14px 16px 5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.ni{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:14px;color:var(--muted);cursor:pointer;border-left:3px solid transparent;transition:.15s;min-height:48px}
+.ni:hover{color:var(--txt);background:var(--bg3)}
+.ni.active{color:var(--gold);border-left-color:var(--gold);background:rgba(240,165,0,.07)}
+.ni-icon{font-size:16px;width:22px;text-align:center}
+.sb-bottom{padding:14px 16px;border-top:1px solid var(--border)}
+.sb-user strong{display:block;color:var(--txt);font-size:13px;font-weight:700}
+.sb-user span{font-size:11px;color:var(--muted)}
+#topbar{position:fixed;top:0;left:var(--sw);right:0;height:var(--th);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:200}
+#tbl{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;color:var(--txt)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.tb-pill{background:rgba(240,165,0,.12);color:var(--gold);font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.04em}
+#hamburger{display:none;background:none;border:none;color:var(--txt);font-size:22px;cursor:pointer;padding:8px;min-height:44px;min-width:44px}
+#main{margin-left:var(--sw);margin-top:var(--th);padding:24px;min-height:calc(100vh - var(--th))}
+.page{display:none;animation:fadeUp .2s ease}
+.page.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);padding:20px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pg-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:900;margin-bottom:4px}
+.pg-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.sec-title{font-size:16px;font-weight:700;margin-bottom:14px}
+.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:8px}
+.muted{color:var(--muted)}.gold{color:var(--gold)}.teal{color:var(--teal)}.green{color:var(--green)}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px}
+.b-gold{background:rgba(240,165,0,.15);color:var(--gold)}
+.b-teal{background:rgba(0,212,170,.15);color:var(--teal)}
+.b-blue{background:rgba(79,142,247,.15);color:var(--blue)}
+.b-green{background:rgba(52,211,153,.15);color:var(--green)}
+.b-red{background:rgba(248,113,113,.15);color:var(--red)}
+.b-purple{background:rgba(167,139,250,.15);color:var(--purple)}
+.b-pink{background:rgba(244,114,182,.15);color:var(--pink)}
+.stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);padding:18px}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:900;color:var(--gold)}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:4px}
+.out{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px;font-size:14px;line-height:1.75;white-space:pre-wrap;display:none;margin-top:10px}
+.out.on{display:block}
+.st{font-size:13px;padding:10px 14px;border-radius:8px;margin-top:10px;display:none}
+.st.on{display:block}
+.st-i{background:rgba(79,142,247,.15);color:var(--blue)}
+.st-k{background:rgba(52,211,153,.15);color:var(--green)}
+.st-e{background:rgba(248,113,113,.15);color:var(--red)}
+#bmsgs{min-height:280px;max-height:420px;overflow-y:auto;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+.msg{max-width:86%;padding:12px 16px;border-radius:12px;font-size:14px;line-height:1.7}
+.msg-u{align-self:flex-end;background:rgba(240,165,0,.15);border-bottom-right-radius:4px}
+.msg-b{align-self:flex-start;background:var(--bg4);border-bottom-left-radius:4px}
+.msg-who{font-size:10px;font-weight:700;color:var(--muted);margin-bottom:5px;letter-spacing:.06em}
+.chat-row{display:flex;gap:10px;align-items:flex-end}
+#bin{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--txt);font-size:15px;resize:none;min-height:52px;max-height:140px}
+.bquick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bq{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:10px 16px;font-size:13px;color:var(--muted);cursor:pointer;transition:.15s;min-height:44px;display:flex;align-items:center}
+.bq:hover{border-color:var(--gold);color:var(--gold)}
+.tool-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:16px;display:flex;flex-direction:column;gap:10px}
+.tool-name{font-size:15px;font-weight:700}
+.tool-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.actor-card{background:var(--bg2);border:2px solid var(--border);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:.2s}
+.actor-card:hover{transform:translateY(-2px)}
+.actor-emoji{font-size:40px;margin-bottom:10px}
+.actor-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:900;margin-bottom:6px}
+.actor-role{font-size:12px;color:var(--muted);line-height:1.5}
+.pdf-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:.2s;display:flex;gap:16px;align-items:center}
+.pdf-card:hover{border-color:var(--gold)}
+.pdf-icon{font-size:36px;flex-shrink:0}
+.pdf-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.pdf-meta{font-size:12px;color:var(--muted)}
+#pdf-viewer{display:none;position:fixed;inset:0;background:var(--bg);z-index:5000;overflow-y:auto;padding:20px}
+.pdf-content{max-width:700px;margin:0 auto;background:var(--bg2);border-radius:16px;padding:32px;font-size:14px;line-height:1.9;white-space:pre-wrap;font-family:monospace;color:var(--txt)}
+.pdf-header{position:sticky;top:0;background:var(--bg);padding:12px 0 16px;display:flex;gap:12px;align-items:center;max-width:700px;margin:0 auto 16px;flex-wrap:wrap}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:4000;display:none;align-items:center;justify-content:center;padding:16px}
+.mbg.on{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;animation:popIn .2s ease}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:290}
+/* AI HUB */
+.ai-card{background:var(--bg2);border:2px solid var(--border);border-radius:14px;padding:18px;text-align:center;transition:.2s;cursor:pointer}
+.ai-card:hover{transform:translateY(-2px);border-color:var(--gold)}
+.ai-card.active-ai{border-color:var(--gold);background:rgba(240,165,0,.06)}
+.ai-logo{font-size:32px;margin-bottom:8px}
+.ai-name{font-size:13px;font-weight:700;margin-bottom:4px}
+.ai-tag{font-size:11px;color:var(--muted)}
+/* COURSE */
+.day-row{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg3);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.15s}
+.day-row:hover{background:var(--bg4)}
+.day-row.done{opacity:.55}
+.day-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;margin-top:2px;transition:.2s}
+.day-row.done .day-check{background:var(--green);border-color:var(--green);color:#000}
+.day-num{font-size:11px;color:var(--muted);font-weight:700;min-width:44px;margin-top:4px}
+.day-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.day-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.progress-bar{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;border-radius:5px;transition:.4s}
+/* VIDEO STUDIO */
+.vstep{background:var(--bg3);border-radius:12px;padding:18px;display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.vstep-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:16px;flex-shrink:0}
+/* UTILS */
+.sep{height:1px;background:var(--border);margin:18px 0}
+.fsb{display:flex;align-items:center;justify-content:space-between}
+.fca{display:flex;align-items:center}
+.flex{display:flex}.wrap{flex-wrap:wrap}
+.gap8{gap:8px}.gap12{gap:12px}.gap16{gap:16px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.mb20{margin-bottom:20px}.mb24{margin-bottom:24px}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}
+.bold{font-weight:700}
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #overlay.on{display:block}
+  #main{margin-left:0;padding:14px}
+  #topbar{left:0}
+  #hamburger{display:flex}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .tb-pill{display:none}
+  button,.btn{min-height:54px;padding:15px 20px;font-size:15px}
+  .btn-sm{min-height:46px;padding:12px 16px;font-size:14px}
+  input,select,textarea{min-height:54px;font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="ring">⚡</div>
+  <div class="lt">HUB ENGINE V4.1</div>
+  <div class="ls">LOADING STUDIO...</div>
+  <div class="bar"><div class="fill"></div></div>
+  <div style="color:#2a3040;font-size:10px;margin-top:14px">AffiliateMediaHub Studio · John Lanter CEO · 2026</div>
+</div>
+
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-lock">⚡</div>
+    <div class="login-title">HUB ENGINE V4.1</div>
+    <div class="login-sub">AffiliateMediaHub Studio · John Lanter CEO</div>
+    <input id="pw-input" type="password" placeholder="Enter studio password..."/>
+    <button class="btn-gold w100" onclick="chkPw()">🔓 Enter Studio</button>
+    <div class="login-err" id="pw-err">❌ Wrong password. Try again.</div>
+    <div class="login-footer">12 AI Assistants · Video Studio · 3 Learning Courses<br>Three Minds. One Mission. $5/month.</div>
+  </div>
+</div>
+
+<div id="app">
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<div id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-text">⚡ HUB ENGINE V4.1</div>
+    <div class="sb-logo-sub">AFFILIATEMEDIAHUB STUDIO</div>
+    <div class="sb-ver">● ALL SYSTEMS LIVE</div>
+  </div>
+  <nav style="padding:8px 0;flex:1">
+    <div class="sb-section">Daily Workflows</div>
+    <div class="ni active" onclick="nav('dashboard')"><span class="ni-icon">🏠</span>Dashboard</div>
+    <div class="ni" onclick="nav('becky')"><span class="ni-icon">🤖</span>Becky AI</div>
+    <div class="ni" onclick="nav('aihub')"><span class="ni-icon">🧠</span>Multi-AI Hub</div>
+    <div class="ni" onclick="nav('jobfinder')"><span class="ni-icon">🔍</span>AI Job Finder</div>
+    <div class="ni" onclick="nav('podcast')"><span class="ni-icon">🎙</span>Podcast + Video</div>
+    <div class="ni" onclick="nav('videostudio')"><span class="ni-icon">🎬</span>Video Studio</div>
+    <div class="ni" onclick="nav('affiliate')"><span class="ni-icon">💰</span>Affiliate Team</div>
+    <div class="ni" onclick="nav('blog')"><span class="ni-icon">✍️</span>Daily Blog</div>
+    <div class="sb-section">Studio</div>
+    <div class="ni" onclick="nav('actors')"><span class="ni-icon">🎭</span>Cast & Actors</div>
+    <div class="ni" onclick="nav('pdfs')"><span class="ni-icon">📄</span>PDF Blueprints</div>
+    <div class="ni" onclick="nav('calendar')"><span class="ni-icon">📅</span>Show Schedule</div>
+    <div class="sb-section">28-Day Courses</div>
+    <div class="ni" onclick="nav('course-ai')"><span class="ni-icon">📚</span>AI Mastery Course</div>
+    <div class="ni" onclick="nav('course-spanish')"><span class="ni-icon">🇪🇸</span>Spanish with Becky</div>
+    <div class="ni" onclick="nav('course-ceo')"><span class="ni-icon">👔</span>CEO Leadership</div>
+    <div class="sb-section">System</div>
+    <div class="ni" onclick="nav('settings')"><span class="ni-icon">⚙️</span>Settings</div>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-user"><strong>John Lanter</strong><span>CEO · AffiliateMediaHub</span></div>
+  </div>
+</div>
+
+<div id="topbar">
+  <div class="fca gap8">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <span id="tbl">Dashboard</span>
+  </div>
+  <div class="tb-right">
+    <span class="tb-pill">V4.1 · 12 AIs</span>
+    <button class="btn btn-ghost btn-sm" onclick="nav('becky')">🤖 Becky</button>
+  </div>
+</div>
+
+<div id="main">
+
+<!-- ══ DASHBOARD ══ -->
+<div id="pg-dashboard" class="page active">
+  <div class="fsb mb16">
+    <div>
+      <div class="pg-title">Good morning, John 👋</div>
+      <div class="pg-sub">Hub Engine V4.1 · 12 AI Assistants · Video Studio · 3 Courses</div>
+    </div>
+  </div>
+  <div class="g3 mb20">
+    <div style="background:linear-gradient(135deg,rgba(0,212,170,.15),rgba(0,212,170,.04));border:2px solid var(--teal);border-radius:14px;padding:22px">
+      <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.1em;margin-bottom:8px">WORKFLOW 1 — VIDEO</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:900;margin-bottom:8px">Make a Video Today</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">30 sec to 30 min. Becky writes script + prompts. 4 steps.</div>
+      <button class="btn btn-teal w100" onclick="nav('videostudio')" style="min-height:56px;font-size:15px">🎬 Open Video Studio →</button>
+    </div>
+    <div style="background:linear-gradient(135deg,rgba(240,165,0,.15),rgba(240,165,0,.04));border:2px solid var(--gold);border-radius:14px;padding:22px">
+      <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;margin-bottom:8px">WORKFLOW 2 — JOB</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:900;margin-bottom:8px">Apply for a Job</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">Becky finds jobs, writes resume + cover letter. Done in 20 min.</div>
+      <button class="btn btn-gold w100" onclick="nav('jobfinder')" style="min-height:56px;font-size:15px">🔍 Find Jobs Now →</button>
+    </div>
+    <div style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(167,139,250,.04));border:2px solid var(--purple);border-radius:14px;padding:22px">
+      <div style="font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.1em;margin-bottom:8px">WORKFLOW 3 — AI HUB</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:900;margin-bottom:8px">12 AIs Together</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">Groq · Claude · ChatGPT · Gemini · DeepSeek + 7 more. All in one place.</div>
+      <button class="btn w100" onclick="nav('aihub')" style="b
